@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer base {
+  :root {
+    --background: 228, 56%, 98%;
+    --foreground: 218 19% 44%;
+    --primary: 202 86% 38%;
+    --darkprimary: 202 90% 23%;
+    --secondary: 192 68% 51%;
+    --border: 218 33% 91%;
+    --dark: 215 26% 17%;
+    --error: 13 93% 70%;
+    --error-empahasis: 12 59% 60%;
+    --muted: 217 26% 22%
+  }
+  .dark {
+    --background: 224 71.4% 4.1%;
+    --foreground: 216 22% 58%;
+    --border: 219 25% 27%;
+    --dark : 0 0% 100%;
+    --muted: 216 22% 58%;
+  }
+}
+
+.parent:has(.child:focus) {
+  border-color: hsl(var(--primary));
+}
+
+
+.testimonial-swiper .swiper-wrapper{
+  padding-bottom: 50px !important;
+}
+.testimonial-swiper .swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.testimonial-swiper .swiper-pagination-bullet-active {
+  background-color: hsl(var(--primary)) !important;
+}
+.testimonial-swiper .swiper-pagination-bullet{
+  width:10px !important;
+  height: 10px !important;
+}
+
+/* Slick Carousel */
+.product-slider .slick-slider button.slick-next:before {
+  content: url("../../assets/images/svgs/mdi-light--chevron-right.png");
+  right: -2px;
+  position: relative;
+}
+
+.product-slider .slick-slider button.slick-prev:before {
+  content: url("../../assets/images/svgs/mdi-light--chevron-left.png");
+  left: -2px;
+  position: relative;
+}
+
+.product-slider .slick-slider .slick-prev,
+.product-slider .slick-slider .slick-next {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  transition: all 0.3s ease;
+}
+
+.product-slider .slick-slider .slick-prev:hover {
+  padding-right: 6px;
+}
+
+.product-slider .slick-slider .slick-prev {
+  left: -30px;
+  z-index: 50;
+  background-color: white;
+}
+
+.product-slider .slick-slider .slick-next:hover {
+  padding-left: 6px;
+}
+
+.product-slider .slick-slider .slick-next {
+  right: -30px;
+  z-index: 50;
+  background-color: white;
+}
+
+
+
+
+@layer base {
+  body {
+    @apply bg-background text-foreground h-full;
+  }
+  .container-sm{
+    @apply max-w-[1360px] mx-auto;
+  }
+  .container-md{
+    @apply max-w-7xl mx-auto;
+  }
+  h1,h2,h3,h4,h5,h6{
+    @apply text-dark;
+  }
+  p,span{
+    @apply text-foreground;
+  }
+  html{
+    @apply h-full;
+  }
+}
