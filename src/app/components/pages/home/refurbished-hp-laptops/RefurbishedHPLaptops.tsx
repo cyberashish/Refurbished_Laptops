@@ -1,5 +1,5 @@
 import { Button } from "@/app/components/ui/button"
-import ProductSlider from "../refurbished-laptops/ProductSlider"
+import NewProductSlider from "../refurbished-laptops/NewProductSlider"
 
 
 
@@ -15,7 +15,8 @@ const RefurbishedHPLaptops = () => {
         </div>
          <h3 className="text-[28px] font-semibold text-dark text-center">Refurbished HP Laptops</h3>
         </div>
-           <ProductSlider/>
+           {/* <ProductSlider/> */}
+           <NewProductSlider/>
            <Button variant="primary" className="fit-content mx-auto font-semibold px-6" >View All</Button>
       </div>
     </div>

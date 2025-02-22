@@ -6,8 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import { useRouter } from "next/navigation";
-import ProductCard, { Product } from "./ProductCard";
-
+import ProductCard, { Product } from "../home/refurbished-laptops/ProductCard";
 
 function ProductSlider() {
   const [laptops, setLaptops] = useState<Product[] | null>(null);

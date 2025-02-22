@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import ProductCard, { Product } from "./ProductCard";
 
 
-function ProductSlider() {
+function NewProductSlider() {
   const [laptops, setLaptops] = useState<Product[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -94,4 +94,4 @@ function ProductSlider() {
   );
 }
 
-export default ProductSlider;
+export default NewProductSlider;
