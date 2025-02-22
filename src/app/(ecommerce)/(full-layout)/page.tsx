@@ -9,10 +9,11 @@ import TestimonialSection from "@/app/components/pages/home/testimonial/Testimon
 
 
 
+
  
 const page = () => {
   return (
-     <>
+     <div>
        <HeroSection/>
        <Features/>
        <ShopByUsage/>
@@ -21,7 +22,7 @@ const page = () => {
        <RefurbishedHPLaptops/>
        <Faq/>
        <TestimonialSection/>
-     </>
+     </div>
   )
 }
 

@@ -18,8 +18,8 @@ export default {
   		},
   		boxShadow: {
   			sm: '0 4px 4px #00000040',
-  			'md': 'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px',
-  			'lg': '0 3px 6px 0 rgba(0,0,0,.15)'
+  			md: 'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px',
+  			lg: '0 3px 6px 0 rgba(0,0,0,.15)'
   		},
   		colors: {
   			background: 'hsl(var(--background))',
@@ -31,7 +31,7 @@ export default {
   			error: 'hsl(var(--error))',
   			erroremphasis: 'hsl(var(--error-empahasis))',
   			muted: 'hsl(var(--muted))',
-			darkprimary: 'hsl(var(--darkprimary))'
+  			darkprimary: 'hsl(var(--darkprimary))'
   		},
   		borderRadius: {
   			md: '7px'

@@ -42,8 +42,9 @@ body {
   background: #fff;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; 
 }
+
 
 
 .testimonial-swiper .swiper-pagination-bullet-active {
@@ -80,6 +81,16 @@ body {
   padding-right: 6px;
 }
 
+/* .product-slider .slick-slider .slick-list{
+  padding-left: 15px !important;
+}
+
+@media only screen and (max-width: 600px){
+  .product-slider .slick-slider .slick-list{
+    padding-left: 0px !important;
+  }
+} */
+
 .product-slider .slick-slider .slick-prev {
   left: -30px;
   z-index: 50;
@@ -96,6 +107,56 @@ body {
   background-color: white;
 }
 
+/* Product detail page slick */
+
+.product-detail-slider .slick-slider button.slick-next:before {
+  content: url("../../assets/images/svgs/mdi-light--chevron-right.png");
+  right: -2px;
+  position: relative;
+}
+
+.product-detail-slider .slick-slider button.slick-prev:before {
+  content: url("../../assets/images/svgs/mdi-light--chevron-left.png");
+  left: -2px;
+  position: relative;
+}
+
+.product-detail-slider .slick-slider .slick-prev,
+.product-detail-slider .slick-slider .slick-next {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  transition: all 0.3s ease;
+}
+
+.product-detail-slider .slick-slider .slick-prev:hover {
+  padding-left: 3px;
+}
+
+.product-detail-slider .slick-slider .slick-prev {
+  left: 50px;
+  z-index: 50;
+  background-color: white;
+}
+
+
+.product-detail-slider .slick-slider .slick-next:hover {
+  padding-left: 3px;
+}
+
+.product-detail-slider .slick-slider.small-slider .slick-list .slick-slide.slick-current img{
+  /* border: 1px solid hsl(var(--primary)); */
+  /* border-color: hsl(var(--primary)) !important; */
+  border-width: 2px !important;
+  box-shadow: 0 3px 6px 0 rgba(0,0,0,.15);
+}
+
+.product-detail-slider .slick-slider .slick-next {
+  right: 50px;
+  z-index: 50;
+  background-color: white;
+}
 
 
 

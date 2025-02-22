@@ -1,0 +1,150 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Laptop {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  brand             String
+  modelSeries       String
+  modelNumber       String
+  dimensions        Dimensions
+  bodyMaterial      String[]
+  category          String
+  image             String[]
+  carouselImages    String[]
+  title             String
+  rating           Int
+  pricing          Pricing
+  discountPercentage Int
+  stock            Stock
+  brandColor       String
+  specifications   Specifications
+}
+
+type Dimensions {
+  height     Float
+  width      Float
+  depth      Float
+  weightUnit Float
+}
+
+type Pricing {
+  actualPrice     String
+  discountedPrice String
+}
+
+type Stock {
+  quantity    Int
+  isAvailable Boolean
+}
+
+type Specifications {
+  processor      Processor
+  ram            RAM
+  storage        Storage
+  gpu            GPU
+  display        Display
+  batteryLife    BatteryLife
+  charging       Charging
+  additionalFeatures String[]
+  camera         Camera
+  os            OS
+  connectivity  Connectivity
+  ports         Ports
+  warranty      Warranty
+}
+
+type Processor {
+  brand      String
+  type       String
+  generation String
+  variant    String?
+  cores      String
+  baseSpeed  Float
+  turboSpeed Float?
+}
+
+type RAM {
+  type         String
+  capacity     String
+  frequency    Int
+  configuration String?
+}
+
+type Storage {
+  type         String
+  hddCapacity  String
+  ssdCapacity  String
+}
+
+type GPU {
+  brand String
+  model String
+  processorType  String
+}
+
+type Display {
+  sizeInInches         Float
+  sizeInCms            Float
+  type                 String
+  resolution           String
+  aspectRatio          String
+  touchScreen          Boolean
+  refreshRate          Int
+  additionalSpecifications String
+}
+
+type BatteryLife {
+  usageTime   Int
+  standbyTime Int
+}
+
+type Charging {
+  fastCharging Boolean
+  wattage      Int
+  portType     String
+  chargingTime Float
+}
+
+type Camera {
+  type      String
+  resolution String
+  features  String[]
+}
+
+type OS {
+  type         String
+  name         String
+  architecture String
+}
+
+type Connectivity {
+  bluetoothSupported Boolean
+  bluetoothVersion   String
+  bluetoothFeatures  String[]
+  wifiSupported      Boolean
+  wifiSpecifications String
+}
+
+type Ports {
+  auxPortType        String
+  usbPorts           String[]
+  usbTypesSupported  String[]
+  hdmi              HDMI
+  externalCardSupported String
+}
+
+type HDMI {
+  count Int
+  type  String
+}
+
+type Warranty {
+  period   String
+  coverage String
+}

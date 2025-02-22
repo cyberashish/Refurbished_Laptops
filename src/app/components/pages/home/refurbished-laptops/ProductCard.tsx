@@ -1,49 +1,156 @@
+"use client"
+
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
 
-type Product = {
+
+export type Dimensions = {
+  height: number;
+  width: number;
+  depth: number;
+  weightUnit: number;
+};
+
+export type Pricing = {
+  actualPrice: string;
+  discountedPrice: string;
+};
+
+export type Stock = {
+  quantity: number;
+  isAvailable: boolean;
+};
+
+export type Processor = {
+  brand: string;
+  type: string;
+  generation: string;
+  variant: string;
+  cores: string;
+  baseSpeed: number;
+  turboSpeed: number;
+};
+
+export type RAM = {
+  type: string;
+  capacity: string;
+  frequency: number;
+  configuration: string;
+};
+
+export type Storage = {
+  type: string;
+  hddCapacity: string;
+  ssdCapacity: string;
+};
+
+export type GPU = {
+  brand: string;
+  model: string;
+  processorType: string;
+};
+
+export type Display = {
+  sizeInInches: number;
+  sizeInCms: number;
+  type: string;
+  resolution: string;
+  aspectRatio: string;
+  touchScreen: boolean;
+  refreshRate: number;
+  additionalSpecifications: string;
+};
+
+export type BatteryLife = {
+  usageTime: number;
+  standbyTime: number;
+};
+
+export type Charging = {
+  fastCharging: boolean;
+  wattage: number;
+  portType: string;
+  chargingTime: number;
+};
+
+export type Camera = {
+  type: string;
+  resolution: string;
+  features: string[];
+};
+
+export type OS = {
+  type: string;
+  name: string;
+  architecture: string;
+};
+
+export type Connectivity = {
+  bluetoothSupported: boolean;
+  bluetoothVersion: string;
+  bluetoothFeatures: string[];
+  wifiSupported: boolean;
+  wifiSpecifications: string;
+};
+
+export type Ports = {
+  auxPortType: string;
+  usbPorts: string[];
+  usbTypesSupported: string[];
+  hdmi: {
+    count: number;
+    type: string;
+  };
+  externalCardSupported: string;
+};
+
+export type Warranty = {
+  period: string;
+  coverage: string;
+};
+
+export type Specifications = {
+  processor: Processor;
+  ram: RAM;
+  storage: Storage;
+  gpu: GPU;
+  display: Display;
+  batteryLife: BatteryLife;
+  charging: Charging;
+  additionalFeatures: string[];
+  camera: Camera;
+  os: OS;
+  connectivity: Connectivity;
+  ports: Ports;
+  warranty: Warranty;
+};
+
+export type Product = {
   id: string;
   brand: string;
+  modelSeries: string;
+  modelNumber: string;
+  dimensions: Dimensions;
+  bodyMaterial: string[];
   category: string;
   image: string[];
   title: string;
   rating: number;
-  pricing: {
-    actualPrice: string;
-    discountedPrice: string;
-  };
+  pricing: Pricing;
   discountPercentage: number;
-  stock: {
-    quantity: number;
-    isAvailable: boolean;
-  };
+  stock: Stock;
   brandColor: string;
-  specifications: {
-    processor: string;
-    ram: string;
-    storage: string;
-    graphicsCard: string;
-    display: {
-      size: string;
-      resolution: string;
-      refreshRate: string;
-    };
-    battery: string;
-    weight: string;
-    operatingSystem: string;
-    connectivity: string[];
-    ports: string[];
-    warranty: {
-      period: string;
-      coverage: string;
-    };
-  };
+  specifications: Specifications;
+  carouselImages: string[];
 };
 
 
-const ProductCard = ({item}:{item:Product}) => {
+
+
+const ProductCard = ({item,onClickCapture}:{item:Product , onClickCapture:(event:any) => void}) => {
+
   return (
-    <div className="group cursor-pointer">
+    <div className="group cursor-pointer" onClick={onClickCapture}>
       <div className=" rounded-xl bg-gray-300 relative h-[286px]">
         <Image
           src={item.image[0] }
@@ -52,6 +159,7 @@ const ProductCard = ({item}:{item:Product}) => {
           width={100}
           className="absolute top-1/2 -translate-y-1/2  start-1/2 -translate-x-1/2 px-12 opacity-100 group-hover:opacity-0 transition-opacity duration-700"
           height={100}
+
           style={{ width: "100%", height: "auto" }}
         />
         <Image

@@ -47,7 +47,7 @@ import Image from 'next/image';
 
 export default function HeroSection() {
   return (
-    <div className='lg:mt-[113px] mt-[50px]' >
+    <div>
       <Swiper
         spaceBetween={30}
         style={{
@@ -67,7 +67,7 @@ export default function HeroSection() {
           clickable: true,
         }}
         modules={[EffectFade,Autoplay, Navigation, Pagination]}
-        className="mySwiper lg:h-auto h-[calc(100vh_-_150px)]"
+        className="mySwiper lg:h-auto h-[calc(100vh_-_250px)]"
       >
         {
           SliderImages.map((item)=>{

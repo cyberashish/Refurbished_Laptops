@@ -8,7 +8,7 @@ const Footer = () => {
       <footer className='bg-darkprimary py-10' >
         <div className="container-sm mx-auto">
             <h3 className='text-3xl text-white font-semibold text-center'> We ❤️ Being Friends</h3>
-             <div className="flex gap-12 items-center justify-center my-8">
+             <div className="flex lg:gap-12 gap-6 items-center flex-wrap justify-center lg:my-8 my-4 px-6">
              <div className="icon-wrapper">
                 <Link href="/" ><Icon icon="logos:facebook" className='text-4xl' /></Link>
              </div>
@@ -21,7 +21,7 @@ const Footer = () => {
              </div>
              <p className='text-xl mb-10 font-medium text-white text-center'>Choose Quality! Choose Lapfurbo!</p>
              <div className="max-w-7xl mx-auto mt-8">
-              <div className="grid grid-cols-12 lg:gap-y-20 lg:gap-x-20 gap-x-0 lg:px-0 px-6">
+              <div className="grid grid-cols-12 lg:gap-y-20 lg:gap-x-20 gap-x-0 lg:px-0 px-6 gap-y-6">
                  <div className="xl:col-span-3 lg:col-span-6 col-span-12">
                      <h1 className='text-lg font-semibold text-white mb-6' >Contact</h1>
                       <ul className='flex flex-col gap-3'>

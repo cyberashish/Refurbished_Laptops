@@ -1,9 +1,11 @@
 import { Button } from "@/app/components/ui/button"
-import ProductSlider from "../refurbished-laptops/ProductSlider"
+import ProductSlider from "../home/refurbished-laptops/ProductSlider"
 
 
 
-const RefurbishedHPLaptops = () => {
+
+
+const Wishlist = () => {
   return (
     <div className="max-w-7xl mx-auto py-8" >
       <div className="flex flex-col gap-6 lg:px-0 px-6">
@@ -13,7 +15,7 @@ const RefurbishedHPLaptops = () => {
           Laptops
           </span>
         </div>
-         <h3 className="text-[28px] font-semibold text-dark text-center">Refurbished HP Laptops</h3>
+         <h3 className="text-[28px] font-semibold text-dark text-center">Liked Laptops</h3>
         </div>
            <ProductSlider/>
            <Button variant="primary" className="fit-content mx-auto font-semibold px-6" >View All</Button>
@@ -22,4 +24,4 @@ const RefurbishedHPLaptops = () => {
   )
 }
 
-export default RefurbishedHPLaptops
+export default Wishlist
