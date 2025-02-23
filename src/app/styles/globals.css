@@ -8,11 +8,11 @@ body {
 
 @layer base {
   :root {
-    --background: 228, 56%, 98%;
+    --background: 157, 29%, 96%;
     --foreground: 218 19% 44%;
     --primary: 230 62% 29%;
     --darkprimary: 202 90% 23%;
-    --secondary: 192 68% 51%;
+    --secondary: 158 63% 32%;
     --border: 218 33% 91%;
     --dark: 345 6% 13%;
     --error: 13 93% 70%;
