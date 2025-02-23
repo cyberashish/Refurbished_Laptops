@@ -13,7 +13,7 @@ model User {
   fullname    String?
   email       String   @unique
   password    String
-  phone       String?  @unique
+  phone       String?  
   image       String?
   googleId    String?
   role        Role     @default(USER) 

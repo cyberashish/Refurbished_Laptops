@@ -2,80 +2,6 @@
 
 
 
-// const ProfileDropdown = () => {
-//     const userProfileItems = useMemo(() => [
-//         {
-//            id: uuidv4(),
-//            title: "Update Profile",
-//            icon : "solar:user-bold"
-//         },
-//         {
-//            id: uuidv4(),
-//            title: "User Dashboard",
-//            icon : "lucide:layout-dashboard"
-//         },
-//         {
-//            id: uuidv4(),
-//            title: "Watch History",
-//            icon : "material-symbols:history"
-//         },
-//     ] , [])
-//   return (
-//     <div className="hs-dropdown [--trigger:hover] relative inline-flex">
-//       <button
-//         id="hs-dropdown-custom-icon-trigger"
-//         type="button"
-//         className="hs-dropdown-toggle "
-//         aria-haspopup="menu"
-//         aria-expanded="false"
-//         aria-label="Dropdown"
-//       >
-//          <div className="profile-wrapper cursor-pointer">
-//           <Image src={user} alt="" width={35} height={35} className="rounded-full" />
-//         </div>
-//       </button>
-//       <div
-//         className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-72 bg-white shadow-lg shadow-3xl dark:shadow-dark-md rounded-lg mt-2 "
-//         role="menu"
-//         aria-orientation="vertical"
-//         aria-labelledby="hs-dropdown-custom-icon-trigger"
-//       >
-//         <div className="p-2.5 px-4">
-//         <div className="flex items-center gap-6">
-//             <Image src={user} alt="user" className="size-14 rounded-full" />
-//             <div className="flex flex-col">
-//                 <h4 className="text-lg text-dark font-semibold">James Mathew</h4>
-//                 <p className="text-sm text-muted">cyberjames@gmail.com</p>
-//             </div>
-//         </div>
-//         <hr className="my-4 border-border" />
-//         <div className="flex flex-col gap-3">
-//            {
-//              userProfileItems.map((item) => {
-//                 return (
-//                     <button key={item.id} className="flex items-center gap-3 rounded-md group">
-//                     <div className="p-2 rounded-lg bg-primary/20">
-//                         <Icon icon={item.icon} className="text-primary text-xl" />
-//                     </div>
-//                     <h3 className="text-base font-semibold text-dark dark:text-white group-hover:text-primary">{item.title}</h3>
-//                 </button>
-//                 )
-//              })
-//            }
-//         </div> 
-//         <Button asChild  className="w-full border text-base leading-none mt-6 text-center"  >
-//           <Link href="/auth/login" >Logout</Link>
-//         </Button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ProfileDropdown;
-
-
-
 
 
 
@@ -83,9 +9,17 @@ import { Icon } from "@iconify/react";
 import {v4 as uuidv4} from "uuid"
 import { useMemo } from "react";
 import { Button } from "@/app/components/ui/button";
-import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const ProfileDropdown = () => {
+
+  const {data:session} = useSession();
+  const router = useRouter();
+
+  const signOutHandler = () => {
+    signOut({ callbackUrl: "/auth/login" });
+} 
 
   const userProfileItems = useMemo(() => [
     {
@@ -144,9 +78,13 @@ const ProfileDropdown = () => {
              })
            }
         </div> 
-        <Button asChild  className="w-full border text-sm leading-none mt-7 py-3 h-fit text-center bg-primary hover:bg-primary/80 text-white"  >
-          <Link href="/auth/login" >LogIn</Link>
-        </Button>
+         {
+           session ?  <Button onClick={signOutHandler}  className="w-full border text-sm leading-none mt-7 py-3 h-fit text-center bg-primary hover:bg-primary/80 text-white"  >
+           Logout
+         </Button> : <Button onClick={() => router.push("/auth/login")} className="w-full border text-sm leading-none mt-7 py-3 h-fit text-center bg-primary hover:bg-primary/80 text-white"  >
+            Login
+         </Button>
+         }
         </div>
   </div>
 </div>

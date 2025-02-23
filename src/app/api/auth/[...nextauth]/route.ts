@@ -17,6 +17,10 @@ const authOptions =  NextAuth({
         }),
         CredentialsProvider({
           name: "Credentials",
+          credentials: {
+            email: { label: "Email", type: "email", required: true },
+            password: { label: "Password", type: "password", required: true },
+          },
           /* @ts-expect-error Async Server Component */
           async authorize(credentials:credentialstype){
             const result = await prisma.user.findUnique({
@@ -34,6 +38,15 @@ const authOptions =  NextAuth({
 
       ],
       callbacks: {
+        async jwt({ token, user }) {
+          if (user) {
+            token.id = user.id;
+            token.email = user.email;
+          }
+          return token;
+        },
+  
+    
         async signIn({ user, account }) {
           if (account?.provider === "google") {
             const existingUser = await prisma.user.findFirst({

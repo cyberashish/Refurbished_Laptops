@@ -1,11 +1,15 @@
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { Button } from "../../ui/button";
+import { signIn } from "next-auth/react";
 
 
 
 const AuthForm = () => {
-
+  
+  const signInHandler = () => {
+    signIn('google',{callbackUrl:'/products/cart'})
+    }
 
   return (
     <div className="flex items-center justify-center h-full">
@@ -18,18 +22,12 @@ const AuthForm = () => {
             Your one shop for laptop needs
           </p>
           <div className="flex items-center gap-3 mt-8 justify-center flex-wrap">
-            <div className="px-9 py-2 border border-border rounded-lg flex items-center justify-center gap-2 group hover:border-primary cursor-pointer transition-all lg:w-fit w-full" >
+            <button onClick={signInHandler} className="px-9 py-2 border border-border rounded-lg flex items-center justify-center gap-2 group hover:border-primary cursor-pointer transition-all lg:w-fit w-full" >
               <Icon icon="flat-color-icons:google" className="text-2xl" />
               <p className="text-base text-dark dark:text-white group-hover:text-primary">
                 Google
               </p>
-            </div>
-            <div className="px-9 py-2 border border-border justify-center rounded-lg flex items-center gap-2 group hover:border-primary cursor-pointer transition-all lg:w-fit w-full">
-              <Icon icon="devicon:github" className="text-2xl" />
-              <p className="text-base text-dark dark:text-white group-hover:text-primary">
-                Github
-              </p>
-            </div>
+            </button>
           </div>
           <div className="relative">
           <hr className="my-8 border-border" />
