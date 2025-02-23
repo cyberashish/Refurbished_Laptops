@@ -10,11 +10,11 @@ body {
   :root {
     --background: 228, 56%, 98%;
     --foreground: 218 19% 44%;
-    --primary: 202 86% 38%;
+    --primary: 230 62% 29%;
     --darkprimary: 202 90% 23%;
     --secondary: 192 68% 51%;
     --border: 218 33% 91%;
-    --dark: 215 26% 17%;
+    --dark: 345 6% 13%;
     --error: 13 93% 70%;
     --error-empahasis: 12 59% 60%;
     --muted: 217 26% 22%

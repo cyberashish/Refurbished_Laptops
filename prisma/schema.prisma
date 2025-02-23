@@ -7,6 +7,131 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+model User {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  fullname    String?
+  email       String   @unique
+  password    String
+  phone       String?  @unique
+  image       String?
+  googleId    String?
+  role        Role     @default(USER) 
+  isVerified  Boolean  @default(false) 
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  addresses   Address[]  
+  orders      Order[]    
+  wishlist    Wishlist[] 
+  cart        CartItem[] 
+  reviews     Review[]  
+}
+
+enum Role {
+  USER
+  ADMIN
+  SELLER
+}
+
+model Address {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  street     String
+  city       String
+  state      String
+  country    String
+  zipCode    String
+  phone      String
+  isDefault  Boolean  @default(false) // Default shipping address
+  createdAt  DateTime @default(now())
+}
+
+model Order {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  totalAmount Float
+  status      OrderStatus  @default(PENDING)
+  paymentMethod String
+  paymentStatus PaymentStatus  @default(PENDING)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  items       OrderItem[]
+  shippingAddress String 
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  RETURNED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+model OrderItem {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+  quantity  Int
+  price     Float
+}
+
+model Product {
+  id       String      @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  price    Float
+  stock    Int
+  orders   OrderItem[]
+  wishlist Wishlist[]
+  cart     CartItem[]
+  reviews  Review[]
+}
+
+model Wishlist {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model CartItem {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+}
+
+model Review {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  rating     Int      @default(5) // 1-5 star rating
+  comment    String?
+  createdAt  DateTime @default(now())
+}
+
+
+
+
 model Laptop {
   id                String   @id @default(auto()) @map("_id") @db.ObjectId
   brand             String

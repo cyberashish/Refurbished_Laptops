@@ -1,11 +1,12 @@
 "use client"
 import Image from "next/image";
-import logo from "@/assets/images/logos/logo.svg";
+import logo from "@/assets/images/logos/logo.png";
 import { Input } from "@/app/components/ui/input";
 import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
 import Menu from "./menu/Menu";
 import Link from "next/link";
+import ProfileDropdown from "./profile/ProfileDropdown";
 
 
 
@@ -32,7 +33,7 @@ const Header = () => {
   return (
     <div className={`top-0 z-[999] bg-white w-full fixed ${scroll === "fixed" ? "shadow-lg " : null}`} >
    <div className="flex items-center justify-between lg:py-3 py-4 px-6">
-    <Link href="/" className="lg:order-1 order-2 block" > <Image src={logo} alt="image" className="w-40 " /></Link>
+    <Link href="/" className="lg:order-1 order-2 block" > <Image src={logo} alt="image" className="w-auto h-10" /></Link>
      <div className="relative parent border border-border rounded-full lg:block hidden lg:order-2 order-2">
       <Icon icon="meteor-icons:search" className="text-xl text-muted absolute start-3.5 top-1/2 -translate-y-1/2" />
      <Input type="email" value={search} onChange={(e) => setSearch(e.target.value) } placeholder="What are you looking for" className="child lg:min-w-[560px] min-w-auto  px-12 rounded-full h-11 border-none focus-visible:ring-2 shadow-none placeholder:text-[13px]" />
@@ -43,9 +44,8 @@ const Header = () => {
       <div className="after:w-10 after:h-10 after:rounded-full relative after:absolute cursor-pointer hover:after:bg-primary/10 after:top-1/2 after:-translate-y-1/2 after:start-1/2 after:-translate-x-1/2 group" >
       <Icon icon="solar:cart-4-outline" className="text-2xl group-hover:text-primary  rounded-full text-muted " />
       </div>
-      <div className="after:w-10 after:h-10 after:rounded-full relative after:absolute cursor-pointer hover:after:bg-primary/10 after:top-1/2 after:-translate-y-1/2 after:start-1/2 after:-translate-x-1/2 group" >
-      <Icon icon="solar:user-outline" className="text-2xl group-hover:text-primary cursor-pointer rounded-full text-muted" />
-      </div>
+
+      <ProfileDropdown/>
       <div className="after:w-10 after:h-10 after:rounded-full relative after:absolute cursor-pointer hover:after:bg-primary/10 after:top-1/2 after:-translate-y-1/2 after:start-1/2 after:-translate-x-1/2 group" >
       <Icon icon="ep:location" className="text-2xl group-hover:text-primary cursor-pointer rounded-full text-muted" />
       </div>

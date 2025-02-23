@@ -6,7 +6,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
 import { NextResponse } from "next/server";
-import { Product } from "../home/refurbished-laptops/ProductCard";
+import { Product } from "../../home/refurbished-laptops/ProductCard";
+import BasicImageSkeleton from "../skeleton/BasicImageSkeleton";
+
 
 
 const ProductSlider = ({productId}:{productId:string}) => {
@@ -16,6 +18,7 @@ const ProductSlider = ({productId}:{productId:string}) => {
   // Use useRef with the correct type
   const sliderRef1 = useRef<Slider | null>(null);
   const sliderRef2 = useRef<Slider | null>(null);
+  const [loading , setLoading] = useState<boolean>(true);
   const [product , setProduct] = useState<Product>()
 
   useEffect(() => {
@@ -79,7 +82,10 @@ const ProductSlider = ({productId}:{productId:string}) => {
          product && product?.carouselImages?.map((item,index) => {
           return (
             <div key={index} className="px-3 rounded-xl outline-0">
-            <Image src={item} alt="product_image" className="py-0 lg:px-28 px-0 bg-background rounded-md" width={100} unoptimized height={100} style={{width:"100%",height:"auto"}}   />
+                  <div>
+                    {loading ? <BasicImageSkeleton/> : null}
+                  <Image src={item} alt="product_image" className="py-0 lg:px-28 px-0 bg-background rounded-md" width={100} unoptimized height={100} style={{width:"100%",height:"auto"}} onLoadingComplete={() => setLoading(false) }  />
+                  </div>
           </div>
           )
         })

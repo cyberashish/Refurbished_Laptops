@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react/dist/iconify.js"
 import Image from "next/image"
-import { Button } from "../../ui/button"
+import { Button } from "../../../ui/button"
 
 
 const ProductCartCard = () => {

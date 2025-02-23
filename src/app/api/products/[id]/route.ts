@@ -10,7 +10,6 @@ export async function GET(req: NextRequest, { params }: { params: any }) {
             id: productId
         }
        });
-       console.log(product);
       return NextResponse.json(product);
   }catch(error){
     return NextResponse.json({error})

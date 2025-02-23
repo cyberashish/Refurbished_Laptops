@@ -1,5 +1,5 @@
 
-import ProductDetailContainer from "@/app/components/pages/product-detail/ProductDetailContainer"
+import ProductDetailContainer from "@/app/components/pages/product-detail/product-slider/ProductDetailContainer"
 
 
 const page = ({params}:{params:any}) => {

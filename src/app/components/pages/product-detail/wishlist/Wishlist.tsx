@@ -1,6 +1,5 @@
 import { Button } from "@/app/components/ui/button"
-import ProductSlider from "../home/refurbished-laptops/ProductSlider"
-
+import NewProductSlider from "../../home/refurbished-laptops/NewProductSlider"
 
 
 
@@ -17,7 +16,7 @@ const Wishlist = () => {
         </div>
          <h3 className="text-[28px] font-semibold text-dark text-center">Liked Laptops</h3>
         </div>
-           <ProductSlider/>
+           <NewProductSlider/>
            <Button variant="primary" className="fit-content mx-auto font-semibold px-6" >View All</Button>
       </div>
     </div>

@@ -3,12 +3,12 @@
 import React, { useEffect, useState } from 'react'
 import ProductSlider from './ProductSlider'
 import ProductSliderDetail from './ProductSliderDetail'
-import Wishlist from './Wishlist'
-import CartButton from './CartButton'
-import { Product } from '../home/refurbished-laptops/ProductCard'
+import Wishlist from '../wishlist/Wishlist'
+import CartButton from '../micro-components/CartButton'
+import { Product } from '../../home/refurbished-laptops/ProductCard'
 import { NextResponse } from 'next/server'
-import { ProductSkeleton } from './ProductSkeleton'
-import ProductFaq from './ProductFaq'
+import { ProductSkeleton } from '../skeleton/ProductSkeleton'
+import ProductFaq from '../faq/ProductFaq'
 
 
 

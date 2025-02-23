@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '../../ui/button'
+import { Button } from '../../../ui/button'
 import { Icon } from '@iconify/react/dist/iconify.js'
 
 const OrderSummary = () => {

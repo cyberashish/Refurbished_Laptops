@@ -76,18 +76,18 @@ export default function TestimonialSection() {
           breakpoints={{
             0: {
               slidesPerView: 1,
-              spaceBetween: 40,
+              spaceBetween: 30,
             },
             768: {
               slidesPerView: 2,
-              spaceBetween: 40,
+              spaceBetween: 30,
             },
             1024: {
               slidesPerView: 3,
-              spaceBetween: 50,
+              spaceBetween: 30,
             },
           }}
-          spaceBetween={50}
+          spaceBetween={30}
           grabCursor={true}
           slidesPerView={3}
           draggable={true}
@@ -96,7 +96,7 @@ export default function TestimonialSection() {
             delay: 2500,
             disableOnInteraction: false,
           }}
-          className="mySwiper testimonial-swiper"
+          className="mySwiper testimonial-swiper lg:!px-6 !px-3"
         >
           {Testimonials.map((item) => {
             return (

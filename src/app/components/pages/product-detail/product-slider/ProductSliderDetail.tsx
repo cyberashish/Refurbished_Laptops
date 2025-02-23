@@ -4,8 +4,9 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import {v4 as uuidv4} from "uuid";
-import { Product } from "../home/refurbished-laptops/ProductCard";
-import { NewProductSkeleton } from "./ProductSkeleton";
+import { Product } from "../../home/refurbished-laptops/ProductCard";
+import { NewProductSkeleton } from "../skeleton/ProductSkeleton";
+
 
 const ProductSliderDetail = ({productId}:{productId:string}) => {
 

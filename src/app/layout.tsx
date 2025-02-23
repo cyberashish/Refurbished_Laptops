@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./styles/globals.css";
 import PrelineScript from "./components/preline/PrelineScript";
+import SessionProvider from "./components/nextauth-wrapper/SessionProvider";
 
 
 const montserrat = Montserrat({ subsets: ['latin'] })
@@ -21,7 +22,9 @@ export default function RootLayout({
       <body
         className={montserrat.className}
       >
+        <SessionProvider>
         {children}
+        </SessionProvider>
       </body>
       <PrelineScript />
     </html>

@@ -1,10 +1,10 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { Product } from "../home/refurbished-laptops/ProductCard";
+import { Product } from "../../home/refurbished-laptops/ProductCard";
 import {v4 as uuidv4} from "uuid";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { Button } from "../../ui/button";
+import { Button } from "../../../ui/button";
 
 export default function ProductFaq({ productId }: { productId: string }) {
   const [product, setProduct] = useState<Product>();

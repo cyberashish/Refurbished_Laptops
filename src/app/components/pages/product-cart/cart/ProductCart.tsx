@@ -1,7 +1,8 @@
 import React from 'react'
 import ProductCartCard from './ProductCartCard'
-import OrderSummary from './OrderSummary'
-import CouponCode from './CouponCode'
+import CouponCode from '../coupon/CouponCode'
+import OrderSummary from '../order-summary/OrderSummary'
+
 
 const ProductCart = () => {
   return (

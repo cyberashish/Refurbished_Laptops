@@ -1,5 +1,6 @@
-import Footer from "./footer/Footer"
-import Header from "./header/Header"
+import Footer from "./layouts/footer/Footer"
+import Header from "./layouts/header/Header"
+
 
 
 const layout = ({children}:{children:React.ReactNode}) => {
