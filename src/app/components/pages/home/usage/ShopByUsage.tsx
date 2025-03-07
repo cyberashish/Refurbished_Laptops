@@ -42,7 +42,7 @@ const ShopByUsage = () => {
               usageTypes.map((item) => {
                 return (
                   <div className="p-2 lg:w-3/12 w-full" key={item.id}>
-                  <div className="py-8 px-8 shadow rounded-md hover:-translate-y-1 transition-all cursor-pointer duration-300 ease-in-out hover:shadow-md">
+                  <div className="py-8 px-8 shadow bg-white rounded-md hover:-translate-y-1 transition-all cursor-pointer duration-300 ease-in-out hover:shadow-md">
                   <Image src={item.img} alt="laptop" unoptimized width={100} height={100} style={{ width: "100%", height: "auto" }} className="rounded-md" />
                    <h3 className="text-xl font-semibold text-center pt-3 text-primary">{item.type}</h3>
                    <hr className="border-border border-b my-2"  />

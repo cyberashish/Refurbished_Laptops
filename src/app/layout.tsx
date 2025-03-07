@@ -3,6 +3,9 @@ import { Montserrat } from "next/font/google";
 import "./styles/globals.css";
 import PrelineScript from "./components/preline/PrelineScript";
 import SessionProvider from "./components/nextauth-wrapper/SessionProvider";
+import { ProductContextProvider } from "./context/products/ProductContext";
+import { UserContextProvider } from "./context/users/UserContext";
+import { Toaster } from "./components/ui/sonner";
 
 
 const montserrat = Montserrat({ subsets: ['latin'] })
@@ -22,9 +25,15 @@ export default function RootLayout({
       <body
         className={montserrat.className}
       >
+     
         <SessionProvider>
+        <UserContextProvider>
+        <ProductContextProvider>
         {children}
+        </ProductContextProvider>
+        </UserContextProvider>
         </SessionProvider>
+        <Toaster />
       </body>
       <PrelineScript />
     </html>

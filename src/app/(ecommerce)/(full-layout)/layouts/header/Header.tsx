@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Menu from "./menu/Menu";
 import Link from "next/link";
 import ProfileDropdown from "./profile/ProfileDropdown";
+import CartDrawer from "./cart/CartDrawer";
 
 
 
@@ -14,6 +15,10 @@ import ProfileDropdown from "./profile/ProfileDropdown";
 const Header = () => {
   const [search, setSearch] = useState<string>("");
   const [scroll , setScroll] = useState("sticky");
+
+ 
+
+
 
   useEffect(() => {
       const handleScroll = () => {
@@ -31,7 +36,7 @@ const Header = () => {
   },[])
   
   return (
-    <div className={`top-0 z-[999] bg-white w-full fixed ${scroll === "fixed" ? "shadow-lg " : null}`} >
+    <div className={`top-0 z-10 bg-white w-full fixed ${scroll === "fixed" ? "shadow-lg " : null}`} >
    <div className="flex items-center justify-between lg:py-3 py-4 px-6">
     <Link href="/" className="lg:order-1 order-2 block" > <Image src={logo} alt="image" className="w-auto h-10" /></Link>
      <div className="relative parent border border-border rounded-full lg:block hidden lg:order-2 order-2">
@@ -41,14 +46,12 @@ const Header = () => {
      </div>
      <Icon icon="material-symbols:menu-rounded" className="text-2xl lg:hidden block  order-1"  />
      <div className="flex items-center gap-4  order-3">
-      <div className="after:w-10 after:h-10 after:rounded-full relative after:absolute cursor-pointer hover:after:bg-primary/10 after:top-1/2 after:-translate-y-1/2 after:start-1/2 after:-translate-x-1/2 group" >
-      <Icon icon="solar:cart-4-outline" className="text-2xl group-hover:text-primary  rounded-full text-muted " />
-      </div>
+     <CartDrawer/>
 
       <ProfileDropdown/>
-      <div className="after:w-10 after:h-10 after:rounded-full relative after:absolute cursor-pointer hover:after:bg-primary/10 after:top-1/2 after:-translate-y-1/2 after:start-1/2 after:-translate-x-1/2 group" >
+      {/* <div onClick={() => router.push("/products/cart")} className="after:w-10 after:h-10 after:rounded-full relative after:absolute cursor-pointer hover:after:bg-primary/10 after:top-1/2 after:-translate-y-1/2 after:start-1/2 after:-translate-x-1/2 group" >
       <Icon icon="ep:location" className="text-2xl group-hover:text-primary cursor-pointer rounded-full text-muted" />
-      </div>
+      </div> */}
      </div>
    </div>
    <Menu/>

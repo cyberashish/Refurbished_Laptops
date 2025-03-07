@@ -1,15 +1,22 @@
+"use client"
+
 import { Icon } from "@iconify/react";
 import { Button } from "../../ui/button";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import bcrypt from "bcryptjs";
+import {v4 as uuidv4} from "uuid";
+import { Loader2 } from "lucide-react";
+import { ToastContainer, toast } from 'react-toastify';
+import Link from "next/link";
 
 
 const AuthRegisterForm = () => {
 
 
   const [formInfo , setFormInfo] = useState<any>();
-  const router = useRouter();
+  const [isEmailSent , setIsEmailSent] = useState<boolean>(false);
+  const [loading , setLoading] = useState<boolean>(false);
 
   const handleForm = (e:any) => {
     console.log(e.target.value);
@@ -18,59 +25,73 @@ const AuthRegisterForm = () => {
 
 
   const handleSubmit = async () => {
-    const response = await fetch("/api/products",{
+
+    setLoading(true);
+    const hashedPassword = await bcrypt.hash(formInfo.password,10);
+    const verificationToken = uuidv4();
+    const tokenExpiry = new Date(Date.now() + 15 * 60 * 1000).toDateString();
+    const userData = {...formInfo , password:hashedPassword, verificationToken:verificationToken , verificationTokenExpiry:tokenExpiry};
+
+    const response = await fetch("/api/users",{
       method:"POST",
       headers:{"Content-Type":"application/json"},
-      body:JSON.stringify(formInfo)
+      body:JSON.stringify(userData)
     });
-    const result = await response.json();
- 
-    if (result.success) {
-      // Automatically log in the user after successful signup
-      const result = await signIn("credentials", {
-        email:formInfo.email,
-        password: formInfo.password,
-        redirect: false, // Prevents redirect, so we can handle it manually
+    const user = await response.json();
+
+    if(user.success){
+       const emailResponse = await fetch("/api/send" , {
+        method: "POST",
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({verificationToken:`${user.verificationToken}`,email:`${user.email}`,fullname:`${user.fullname}`,})
       });
 
-      if (!result?.error) {
-        router.push("/products/cart"); // Redirect user after login
-      } else {
-        console.error("Login failed", result.error);
+        if(emailResponse){
+        setIsEmailSent(true);
+        setTimeout(() => {setIsEmailSent(false)},4000)
       }
-    } else {
-      console.error("Signup failed", result.error);
+      
+    }else{
+      toast.error(user.msg, {
+        position: 'top-right',
+      });
     }
+    setLoading(false);
   }
 
 
-
-
   const signInHandler = () => {
-    signIn('google',{callbackUrl:'/products/cart'})
+    signIn('google',{callbackUrl:'/'})
     }
   return (
-    <div className="flex items-center justify-center h-full">
+    <div className="flex flex-col items-center justify-center h-full">
+      {isEmailSent ? (<h5 className="border border-secondary p-2.5 text-sm text-secondary mx-6 rounded-md mb-4 relative z-50">
+        An Email has been sent to your email address. Please click the link in the mail to continue
+      </h5>) : null }
       <div className="flex w-full justify-center">
         <div className="lg:w-10/12 w-full">
-          <h4 className="text-2xl font-semibold leading-none text-center">
+          <h4 className="text-2xl font-semibold leading-none text-center" >
             Welcome to RentoPc
           </h4>
           <p className="text-sm text-muted text-center">
             Your one shop for laptop needs
           </p>
           <div className="flex items-center gap-3 mt-8 justify-center flex-wrap">
-            <div className="px-9 py-2.5 border border-border rounded-lg flex items-center justify-center gap-2 group hover:border-primary cursor-pointer transition-all lg:w-fit w-full" onClick={signInHandler} >
-              <Icon icon="flat-color-icons:google" className="text-2xl" />
+            <button className="px-11 shadow py-2.5 border border-border rounded-full flex items-center justify-center gap-2 group hover:border-primary cursor-pointer transition-all lg:w-fit w-full" onClick={signInHandler} >
+              <Icon icon="flat-color-icons:google" className="text-xl" />
               <p className="text-base text-dark dark:text-white group-hover:text-primary">
                 Google
               </p>
-            </div>
+            </button>
           </div>
           <div className="relative">
           <hr className="my-8 border-border" />
            <p className="absolute top-1/2 start-1/2 bg-white -translate-y-1/2 -translate-x-1/2 px-2 text-base text-dark">or sign up with</p>
           </div>
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}>
           <div className="max-w-full mb-4">
             <label
               htmlFor="input-label-username"
@@ -81,6 +102,7 @@ const AuthRegisterForm = () => {
             <input
               type="text"
               name="fullname"
+              required
               id="input-label-username"
               onChange={(event:any) => handleForm(event)}
               className="py-2.5 px-4 text-dark block w-full focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-visible:ring-offset-transparent focus-visible:ring-transparent focus-visible:shadow-none border-border rounded-lg text-sm focus:border-primary focus:ring-primary focus:ring-0 border focus:ring-offset-0"
@@ -96,6 +118,7 @@ const AuthRegisterForm = () => {
             </label>
             <input
               type="email"
+              required
               onChange={(event:any) => handleForm(event)}
               name="email"
               id="input-label"
@@ -112,28 +135,33 @@ const AuthRegisterForm = () => {
             </label>
             <input
               type="password"
+              required
               onChange={(event:any) => handleForm(event)}
               name="password"
               id="input-label-password"
               className="py-2.5 text-dark px-4 block w-full border-border rounded-lg focus-visible:outline-none text-sm focus:border-primary focus:ring-primary focus:ring-0 border focus:ring-offset-0"
-              placeholder="Enter your password"
+              placeholder="✱✱✱✱✱✱"
             />
           </div>
+          <Button type="submit" disabled={loading ? true : false} className="bg-primary text-white hover:bg-primary/90 w-full mt-6 text-sm h-fit py-2.5" >
+           <Loader2 className={`animate-spin ${loading ? "block" : "hidden"}`}  />
+            Signup Now
+     
+            </Button>
+          </form>
 
-           <Button onClick={handleSubmit} className="bg-primary text-white hover:bg-primary/90 w-full mt-6 text-sm h-fit py-2" >Signup Now</Button>
+
           <div className="mt-1.5 flex gap-2 items-center justify-center">
             <h5 className="text-base text-dark dark:text-white font-medium">
               Already have an account?
             </h5>
-            <button
-              
-              className="text-base text-primary font-medium hover:text-primary/90"
-            >
+            <Link href="/auth/login" className="text-base text-primary font-medium hover:text-primary/90" >
               SignIn
-            </button>
+            </Link>
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

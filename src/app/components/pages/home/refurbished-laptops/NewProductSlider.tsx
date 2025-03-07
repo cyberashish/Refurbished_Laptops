@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import ProductCard, { Product } from "./ProductCard";
 
 
+
 function NewProductSlider() {
   const [laptops, setLaptops] = useState<Product[] | null>(null);
   const [loading, setLoading] = useState(true);
@@ -41,9 +42,9 @@ function NewProductSlider() {
   const handleBeforeChange = useCallback(() => {
     setDragging(true);
   }, []);
-
+  
   const handleAfterChange = useCallback(() => {
-    setDragging(false);
+    setTimeout(() => setDragging(false), 50); // Slight delay for smoother experience
   }, []);
 
   const settings = {
@@ -68,13 +69,18 @@ function NewProductSlider() {
 
   const router = useRouter();
 
-  const handleOnItemClick = useCallback((event: any, id: string) => {
-    if (dragging) {
-      event.stopPropagation();
-    } else {
-      router.push(`/products/product-detail/${id}`);
-    }
-  }, [dragging, router]);
+  
+
+  const handleOnItemClick = useCallback(
+    (event: React.MouseEvent, id: string, titleSlug: string) => {
+      if (dragging) {
+        event.preventDefault(); // Prevent the click event when dragging
+        return;
+      }
+      router.push(`/products/${titleSlug}`);
+    },
+    [dragging, router]
+  );
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
@@ -85,7 +91,7 @@ function NewProductSlider() {
         {laptops?.map((laptop,index) => (
                  <div className="lg:px-4 px-6" key={index} >
                  <ProductCard item={laptop} onClickCapture={(event:any)=>{
-                   handleOnItemClick(event,laptop?.id)
+                   handleOnItemClick(event,laptop?.id,laptop?.titleSlug)
                  }} />
                </div>
         ))}

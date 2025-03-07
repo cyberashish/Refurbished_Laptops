@@ -135,6 +135,7 @@ export type Product = {
   category: string;
   image: string[];
   title: string;
+  titleSlug: string;
   rating: number;
   pricing: Pricing;
   discountPercentage: number;

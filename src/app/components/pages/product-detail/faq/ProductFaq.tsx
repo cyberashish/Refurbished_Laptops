@@ -6,12 +6,12 @@ import {v4 as uuidv4} from "uuid";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Button } from "../../../ui/button";
 
-export default function ProductFaq({ productId }: { productId: string }) {
+export default function ProductFaq({ productSlug }: { productSlug: string }) {
   const [product, setProduct] = useState<Product>();
 
   const handleProduct = async () => {
     try {
-      const response = await fetch(`/api/products/${productId}`);
+      const response = await fetch(`/api/products/${productSlug}`);
       const result = await response.json();
       setProduct(result);
     } catch (error) {
@@ -21,7 +21,7 @@ export default function ProductFaq({ productId }: { productId: string }) {
 
   useEffect(() => {
     handleProduct();
-  });
+  },[]);
 
    const Specs = [
     {
@@ -99,7 +99,7 @@ export default function ProductFaq({ productId }: { productId: string }) {
               </span>
             </div>
             <h3 className="text-[28px] font-semibold text-dark text-center">
-              Laptop Specification
+              Product Queries
             </h3>
           </div>
           <div className="w-full flex justify-center">

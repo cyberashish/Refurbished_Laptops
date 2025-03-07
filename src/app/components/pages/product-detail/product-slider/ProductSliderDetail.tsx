@@ -2,20 +2,48 @@
 
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import {  useContext, useEffect, useState } from "react";
 import {v4 as uuidv4} from "uuid";
 import { Product } from "../../home/refurbished-laptops/ProductCard";
 import { NewProductSkeleton } from "../skeleton/ProductSkeleton";
+import { Button } from "@/app/components/ui/button";
+import { ToastContainer, toast } from 'react-toastify';
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { ProductContext } from "@/app/context/products/ProductContext";
 
 
-const ProductSliderDetail = ({productId}:{productId:string}) => {
+
+const ProductSliderDetail = ({productSlug}:{productSlug:string}) => {
 
 
     const [product , setProduct] = useState<Product>();
+    const [quantity , setQuantity] = useState<number>(1);
+     const {setPersistCartItems} = useContext(ProductContext)
+    const {data:session} = useSession();
+    const router = useRouter();
 
-   const handleScroll = async () => {
+    const [isScroll , setScroll] = useState(false);
+
+    const handleScroll = () => {
+       if(window.scrollY>0){
+         setScroll(true)
+       }else{
+           setScroll(false)
+       }
+     }
+
+   useEffect(() => {
+     window.addEventListener("scroll" , handleScroll);
+     return () => {
+      window.removeEventListener("scroll" , handleScroll)
+     }
+   },[])
+
+
+   const handleStorage = async () => {
     try{
-      const response = await fetch(`/api/products/${productId}`);
+      const response = await fetch(`/api/products/${productSlug}`);
       const result = await response.json();
       setProduct(result);
     } catch(error){
@@ -23,9 +51,19 @@ const ProductSliderDetail = ({productId}:{productId:string}) => {
     }
    };
 
+   const handleQuantity = (userAction:string) => {
+      if(userAction==="increment"){
+        setQuantity(quantity+1);
+      }else{
+        if(quantity>0){
+          setQuantity(quantity-1)
+        }
+      }
+   }
+
    useEffect(() => {
-     handleScroll();
-   })
+     handleStorage();
+   },[])
 
 
 
@@ -64,8 +102,85 @@ const ProductSliderDetail = ({productId}:{productId:string}) => {
       
   ]
 
+   const addToCart = async (productId:string, quantity:number) => {
+      try{
+        const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+        console.log(cart);
+        // Add to cart operation when user is logged in
+        if(session?.user?.email){
+           try{
+            const response = await fetch("/api/users/email" , {
+              method: "POST",
+              headers:{'Content-Type' : 'application/json'},
+              body: JSON.stringify({email:session?.user?.email})
+            });
+            const {user} = await response.json();
+
+            if(user){
+              const modifiedCartItems = cart.map((item:any) => {
+                return {...item , userId:user.id}
+             });
+    
+             const isCurrentProduct = modifiedCartItems.find((item:any) => item.productId === productId)
+              if(!isCurrentProduct){
+                modifiedCartItems.push({userId:user.id , productId , quantity})
+              }
+             try{
+              const cartResponse = await fetch("/api/users/cart/add-to-cart" , {
+                method: "POST",
+                headers:{'Content-Type' : 'application/json'},
+                body: JSON.stringify({userId:user.id , cartItems:modifiedCartItems})
+              });
+              const cartResult = await cartResponse.json();
+              console.log("my friend ", cartResult.data);
+              setPersistCartItems(cartResult.data)
+              localStorage.setItem("cart" ,"[]");
+             }catch(error:any){
+              console.log("Failed to add cart-items to the databse",error.message)
+             }
+         
+            }
+           }catch(error:any){
+            console.log("Failed to get user at add to cart",error.message)
+           }
+  
+
+        }else{
+          // Add to cart operation when user is logged out
+         if(cart.length !== 0){
+             const isFound = cart.find((item:any) => item.productId === productId);
+             console.log(isFound,"found" , productId)
+             if(isFound){
+               const newCart = cart.map((item:any) => {
+                 if(item.productId == productId){
+                    quantity = item.quantity + quantity
+                   return {productId , quantity}
+                 }else{
+                   return item;
+                  
+                 }
+             });
+             localStorage.setItem("cart" , JSON.stringify(newCart));
+             }
+             else{
+
+               cart.push({productId , quantity});
+               localStorage.setItem("cart" , JSON.stringify(cart))
+             }
+           }
+           else{
+           cart.push({productId, quantity});
+           localStorage.setItem("cart",JSON.stringify(cart));
+           }
+        }
+      }catch(error){
+        console.log("Failed to do add to cart operation",error)
+      }
+  } 
+
 
     return (
+      <>
       <div className="pt-8">
          <h4 className="text-xl font-bold">{product.title}</h4>
          <span className="py-1.5 px-4 bg-secondary/10 font-bold rounded-full text-xs text-secondary my-2 inline-block">{`${product.discountPercentage}% Upto ${discountedPrice} Off`}</span>
@@ -103,6 +218,37 @@ const ProductSliderDetail = ({productId}:{productId:string}) => {
                       )
                   })
               }
+          </div>
+          <div className="flex items-center gap-3">
+              <button onClick={() => handleQuantity("decrement")} className="p-2.5 px-3 hover:border-primary border border-border text-base font-semibold rounded-md mt-6">
+                 <Icon icon="ic:round-minus" className="text-xl text-dark" />
+              </button>
+              <div className="p-3 text-base font-semibold mt-6 min-w-14 flex items-center justify-center">
+                {quantity}
+              </div>
+              <button onClick={() => handleQuantity("increment")} className="p-2.5 hover:border-primary px-3 border border-border text-base font-semibold rounded-md mt-6">
+              <Icon icon="ic:round-plus" className="text-xl text-dark" />
+              </button>
+            </div>
+          <div className="flex items-center gap-4 my-6">
+            <Button onClick={ async () => {
+              toast.success("Item added to the cart" ,{
+                position:"top-right"
+              })
+               await addToCart(product.id , quantity);
+               router.push("/products/cart");
+             
+            }} className="flex-1 w-full bg-primary text-white hover:bg-primary/80 py-2.5 rounded-full h-fit text-base font-medium px-3.5" >
+             Add to Cart
+             
+            </Button>
+            <Button onClick={ async () => {
+                router.push("/checkout/select-address");
+               await addToCart(product.id , quantity);
+               router.push("/checkout/select-address");
+            }} className="flex-1 w-full bg-secondary text-white hover:bg-secondary/80 py-2.5 rounded-full h-fit text-base font-medium px-3.5" >
+             Buy Now
+            </Button>
           </div>
           <h3 className="text-base font-semibold text-dark mt-4">Super Savings (2 OFFERS)</h3>
           <hr className="border border-dark my-1" />
@@ -151,10 +297,31 @@ const ProductSliderDetail = ({productId}:{productId:string}) => {
                <li >Narrow Border Display, Portable Laptop</li>
                <li >Warranty: 1 year Onsite</li>
              </ul>
-
+             <ToastContainer/>
   
           </div>
       </div>
+     {/* For smaller device */}
+     <div className={`fixed bottom-0 start-0 bg-white w-full shadow-md py-2.5 px-5 ${isScroll?" lg:hidden block" : "hidden"}`} >
+        <div className="md:flex items-center lg:justify-between justify-center block">
+            <div className="flex justify-center items-center gap-2.5">
+                <Button onClick={ async () => {
+                router.push("/checkout/select-address");
+               await addToCart(product.id , quantity);
+               router.push("/checkout/select-address");
+            }} className="bg-primary hover:bg-primary/80 lg:w-fit w-full" >Buy Now</Button>
+                <Button onClick={ async () => {
+              toast.success("Item added to the cart" ,{
+                position:"top-right"
+              })
+               await addToCart(product.id , quantity);
+               router.push("/products/cart");
+             
+            }} className="bg-transparent border lg:w-fit w-full border-secondary text-secondary hover:bg-secondary hover:text-white" >Add to Cart</Button>
+            </div>
+        </div>
+    </div>
+  </>
     )
    }else{
     return <NewProductSkeleton/>

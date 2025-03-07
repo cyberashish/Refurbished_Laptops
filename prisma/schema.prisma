@@ -9,23 +9,25 @@ datasource db {
 
 
 model User {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  fullname    String?
-  email       String   @unique
-  password    String
-  phone       String?  
-  image       String?
-  googleId    String?
-  role        Role     @default(USER) 
-  isVerified  Boolean  @default(false) 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  addresses   Address[]  
-  orders      Order[]    
-  wishlist    Wishlist[] 
-  cart        CartItem[] 
-  reviews     Review[]  
+  id                        String   @id @default(auto()) @map("_id") @db.ObjectId
+  fullname                  String?
+  email                     String   @unique
+  password                  String?
+  phone                     String?  
+  image                     String?
+  googleId                  String?
+  verificationToken         String?
+  verificationTokenExpiry   String?
+  role                      Role     @default(USER) 
+  isVerified                Boolean  @default(false) 
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
+  
+  addresses           Address[]  
+  orders              Order[]    
+  wishlist            Wishlist[] 
+  cart                CartItem[] 
+  reviews             Review[]  
 }
 
 enum Role {
@@ -39,28 +41,48 @@ model Address {
   userId     String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   street     String
+  flat       String?
+  firstName  String
+  lastName   String
   city       String
   state      String
   country    String
   zipCode    String
   phone      String
-  isDefault  Boolean  @default(false) // Default shipping address
+  isDefault  Boolean  @default(false) 
   createdAt  DateTime @default(now())
 }
 
 model Order {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  totalAmount Float
-  status      OrderStatus  @default(PENDING)
-  paymentMethod String
-  paymentStatus PaymentStatus  @default(PENDING)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  items       OrderItem[]
-  shippingAddress String 
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  totalAmount     Float
+  status          OrderStatus  @default(PENDING)
+  paymentMethod   String
+  paymentStatus   PaymentStatus  @default(PENDING)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  items           OrderItem[]
+  shippingAddress shippingAddress 
 }
+
+type shippingAddress{
+  id         String 
+  userId     String 
+  street     String
+  flat       String?
+  firstName  String
+  lastName   String
+  city       String
+  state      String
+  country    String
+  zipCode    String
+  phone      String
+  isDefault  Boolean 
+  createdAt  DateTime
+}
+
 
 enum OrderStatus {
   PENDING
@@ -82,29 +104,19 @@ model OrderItem {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
   orderId   String
   order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  productId String
-  product   Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+  laptopId  String
+  laptop    Laptop @relation(fields: [laptopId], references: [id], onDelete: Restrict)
   quantity  Int
   price     Float
 }
 
-model Product {
-  id       String      @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
-  price    Float
-  stock    Int
-  orders   OrderItem[]
-  wishlist Wishlist[]
-  cart     CartItem[]
-  reviews  Review[]
-}
 
 model Wishlist {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  productId String
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  laptopId  String
+  laptop    Laptop  @relation(fields: [laptopId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
 }
 
@@ -112,22 +124,43 @@ model CartItem {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  productId String
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  laptopId  String
+  laptop    Laptop  @relation(fields: [laptopId], references: [id], onDelete: Cascade)
   quantity  Int      @default(1)
   createdAt DateTime @default(now())
+
+  @@unique([userId, laptopId])
 }
 
 model Review {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   userId     String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  productId  String
-  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  rating     Int      @default(5) // 1-5 star rating
+  laptopId   String
+  laptop     Laptop  @relation(fields: [laptopId], references: [id], onDelete: Cascade)
+  rating     Int      @default(5) 
   comment    String?
   createdAt  DateTime @default(now())
 }
+
+model Coupon {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  code         String 
+  discount     Float    
+  type         CouponType? 
+  usageLimit   Int?     
+  usedCount    Int?      @default(0) 
+  minOrder     Float?   
+  expiresAt    DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt 
+}
+
+enum CouponType {
+  PERCENTAGE
+  FIXED
+}
+
 
 
 
@@ -142,13 +175,18 @@ model Laptop {
   category          String
   image             String[]
   carouselImages    String[]
-  title             String
+  title             String @unique
+  titleSlug         String @unique
   rating           Int
   pricing          Pricing
   discountPercentage Int
   stock            Stock
   brandColor       String
   specifications   Specifications
+  orders           OrderItem[]
+  wishlist         Wishlist[]
+  cart             CartItem[]
+  reviews          Review[]
 }
 
 type Dimensions {
