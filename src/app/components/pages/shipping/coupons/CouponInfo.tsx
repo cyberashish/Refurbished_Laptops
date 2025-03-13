@@ -11,7 +11,7 @@ let initialTotalPrice = 0;
 
 export const CouponInfo = () => {
 
-  let {totalPrice , setTotalPrice,allCoupons,activeCouponCode,setActiveCouponCode,usedCoupons,setUsedCoupons} = useContext(ProductContext);
+  let {totalPrice , setTotalPrice,allCoupons,activeCouponCode,setActiveCouponCode,usedCoupons,setUsedCoupons, persistCartItems} = useContext(ProductContext);
 
 
   let [counter , setCounter] = useState(0);
@@ -35,7 +35,8 @@ export const CouponInfo = () => {
         let isValidCouponCode = allCoupons.find((item) => item.code === activeCouponCode);
         if(isValidCouponCode){
           if(usedCoupons[0].activeCoupon === activeCouponCode){
-            toast.error("Coupon code already applied")
+            toast.error("Coupon code already applied");
+            console.log("upar wala");
          }else{     
           let usedCoupon = {activeCoupon:activeCouponCode,usedCount:1,discount:isValidCouponCode.discount};
           let discountedAmount = (usedCoupon.discount/100)*initialTotalPrice;
@@ -80,6 +81,7 @@ export const CouponInfo = () => {
    const SaveCoupon = () => {
     localStorage.setItem("couponCode" , `${activeCouponCode}`)
    }
+
 
 
   return (

@@ -56,7 +56,9 @@ interface userContextProps {
     activeShippingAddress: ActiveAdressType,
     setActiveShippingAddres: (value:ActiveAdressType) => void,
     userOrders: any[],
-    setUserOrders: (value:any[]) => void
+    setUserOrders: (value:any[]) => void,
+    userSessionId: string,
+    setUserSessionId: (value:string) => void,
 }
 
 const initialProductProp = {
@@ -69,8 +71,10 @@ const initialProductProp = {
     handleDefaultUpdate: async () => {}, 
     activeShippingAddress: {...initialActiveAddressProps},
     setActiveShippingAddres: () => {},
-    userOrders: []
-,   setUserOrders: () => {},
+    userOrders: [],
+    setUserOrders: () => {},
+    userSessionId:"",
+    setUserSessionId:() => {}
 }
 
 
@@ -85,6 +89,7 @@ export const UserContextProvider = ({children}:{children: React.ReactNode}) => {
     const [trackIsDefaultAddress , setTrackIsDefaultAddress] = useState("");
     const [activeShippingAddress , setActiveShippingAddres] = useState<ActiveAdressType>(initialActiveAddressProps);
     const [userOrders , setUserOrders] = useState<any[]>([]);
+    const [userSessionId , setUserSessionId]  = useState<string>("")
 
 
    
@@ -178,7 +183,9 @@ export const UserContextProvider = ({children}:{children: React.ReactNode}) => {
                 activeShippingAddress,
                 setActiveShippingAddres,
                 userOrders,
-                setUserOrders
+                setUserOrders,
+                userSessionId,
+                setUserSessionId
             }
          } >
             {children}

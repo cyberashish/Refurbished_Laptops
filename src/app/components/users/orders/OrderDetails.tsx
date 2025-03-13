@@ -55,7 +55,7 @@ const OrderDetails = () => {
               {`Order placed ${formatTimestampToDate(currentOrder?.createdAt)}`}
             </p>
             <p className="text-sm text-dark font-semibold">
-              {`Order Id : ${currentOrder?.id}`}
+              {`Order Id : ${currentOrder?.orderId}`}
             </p>
           </div>
           <h4 className="text-primary font-semibold text-lg">Invoice</h4>
@@ -85,7 +85,7 @@ const OrderDetails = () => {
               <h3 className="font-semibold text-dark mb-1.5">Order Summary</h3>
               <div className="flex items-center gap-10 mb-0.5">
                 <p className="text-sm font-medium">Item(s) Subtotal:</p>
-                <p className="text-sm font-medium">{`₹${formatNumber((currentOrder?.totalAmount - 60))}`}</p>
+                <p className="text-sm font-medium">{`₹${currentOrder?.paymentMethod === "COD" ? formatNumber((currentOrder?.totalAmount - 60)) : formatNumber((currentOrder?.totalAmount))}`}</p>
               </div>
               <div className="flex items-center gap-[91px]">
                 <p className="text-sm font-medium">Shipping:</p>

@@ -25,7 +25,7 @@ const OrderItem = ({order}:any) => {
          </div>
           </div>
          <div className="flex flex-col gap-0">
-            <h3 className="text-sm font-semibold text-muted">{`OrderId ${order.id}`}</h3>
+            <h3 className="text-sm font-semibold text-muted">{`OrderId ${order.orderId}`}</h3>
             <Link href={`/users/order/detail?order=${order.id}`} className="text-[13px] font-medium text-primary hover:text-primary/90">View Order Details</Link>
          </div>
       </div>
@@ -35,7 +35,7 @@ const OrderItem = ({order}:any) => {
         <div className="w-6 h-6 text-xs font-medium bg-primary absolute bottom-7 end-1 text-white flex items-center justify-center rounded-full ">+{order.items.length}</div>
         </div>
           <div className="flex flex-col lg:w-10/12 w-full">
-            <h3 className="text-lg font-semibold leading-none text-yellow-500">{order.status}</h3>
+            <h3 className={`text-lg font-semibold leading-none ${order.paymentStatus === "PENDING"?'text-yellow-500' : order.paymentStatus === "SUCCESS" ? 'text-cyan' :'text-error'}`}>{order.paymentStatus}</h3>
               <div className="my-1 mb-3">
               <h3 className="text-sm font-medium text-dark">{`${order.items[order.items.length - 1].laptop.title} and Others ....`}</h3>
               </div>

@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
  export async function POST(req:Request){
     try{
-        const { userId, totalAmount, paymentMethod, shippingAddress, items } = await req.json();
+        const { userId, totalAmount, paymentMethod, shippingAddress, items , orderId } = await req.json();
         console.log("dhyan se",userId, totalAmount, paymentMethod, shippingAddress, items,);
         if(userId && totalAmount && paymentMethod && shippingAddress && items){
 
@@ -12,12 +12,14 @@ import { NextResponse } from "next/server";
           });
           console.log(modifiedItems);
 
+
           const order = await prisma.order.create({
             data:{
                 userId,
                 totalAmount,
                 paymentMethod,
                 shippingAddress,
+                orderId,
                 items: {
                   create: [
                     ...modifiedItems

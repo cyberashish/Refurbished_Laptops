@@ -27,13 +27,13 @@ const OrderPlacedDialog = () => {
   const handleOrder = async () => {
        setIsLoading(true);
        try{
-        //  const orderResponse = await fetch("/api/users/order",{
-        //     method:"POST",
-        //     headers:{'Content-Type':'application/json'},
-        //     body:JSON.stringify({userId,totalAmount:totalPrice,paymentMethod,shippingAddress:activeShippingAddress,items:persistCartItems})
-        //  });
-        //  const userOrder = await orderResponse.json();
-        //  console.log(userOrder);
+         const orderResponse = await fetch("/api/users/order",{
+            method:"POST",
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({userId,totalAmount:totalPrice,paymentMethod,shippingAddress:activeShippingAddress,items:persistCartItems})
+         });
+         const userOrder = await orderResponse.json();
+         console.log(userOrder);
 
         // Clear all cart items
          

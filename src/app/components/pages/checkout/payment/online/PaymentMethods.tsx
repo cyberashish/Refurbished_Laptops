@@ -12,6 +12,8 @@ import Link from 'next/link';
 import { cashfree } from '@/app/components/payment_gateways/cashfree/Utils';
 import { ProductContext } from '@/app/context/products/ProductContext';
 import { useSession } from 'next-auth/react';
+import { UserContext } from '@/app/context/users/UserContext';
+import { Loader2 } from 'lucide-react';
 
 const PaymentMethods = () => {
     const [paymentGateway , setPaymentGateway] = useState("cashfree");
@@ -20,9 +22,12 @@ const PaymentMethods = () => {
     const [orderId , setOrderId] = useState("");
     const [customerName , setCustomerName] = useState("");
     const [customerEmail , setCustomerEmail] = useState("");
-
-    const {totalPrice} = useContext(ProductContext);
+    const {userSessionId} = useContext(UserContext);
     const {data:session} = useSession();
+
+    const {totalPrice, paymentMethod , persistCartItems } = useContext(ProductContext)
+    const {userId, activeShippingAddress} = useContext(UserContext);
+    const [loading , setLoading] = useState(false);
   
   
     const handlePayment = async () => {
@@ -38,6 +43,7 @@ const PaymentMethods = () => {
             console.log(paymentResult);
             setSessionId(paymentResult.payment_session_id);
             setOrderId(paymentResult.order_id);
+            localStorage.setItem("orderId" ,paymentResult.order_id )
           }else{
             console.log("Customer name and Customer email is required")
           }
@@ -49,7 +55,7 @@ const PaymentMethods = () => {
     const handleOrderStatus = (sessionId:string)=>{
       let checkoutOptions = {
           paymentSessionId: sessionId,
-          returnUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/payment-gateway/cash-free/check-status/${orderId}`,
+          returnUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/payment-gateway/cash-free/check-status/${orderId ? orderId : localStorage.getItem("orderId")}`,
           
       }   
       cashfree.checkout(checkoutOptions).then(function(result:any){
@@ -72,9 +78,34 @@ const PaymentMethods = () => {
     }
   },[session]);
 
+
+
+
+  const handleOrder = async () => {
+       try{
+         const orderResponse = await fetch("/api/users/order",{
+            method:"POST",
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({userId,totalAmount:totalPrice,paymentMethod,shippingAddress:activeShippingAddress,items:persistCartItems,orderId})
+         });
+         const userOrder = await orderResponse.json();
+         console.log(userOrder);
+       }catch(error){
+        console.log("failed to place order!" , error)
+       }
+  }
+
+
+  const handleUserOrders = async () => {
+      await handleOrder();
+     handleOrderStatus(sessionId);
+  }
+
+
+
   useEffect(() => {
      if(sessionId){
-      handleOrderStatus(sessionId);
+       handleUserOrders()
      }
   },[sessionId])
 
@@ -168,9 +199,15 @@ const PaymentMethods = () => {
               />
               <Link href="/products/cart" className="hover:text-secondary">Return to cart</Link>
             </div>
-            <button onClick={handlePayment} className="bg-secondary hover:bg-secondary/90 text-[15px] font-semibold py-3.5 px-7 rounded-md text-white">
-              Complete Order
+         {
+           userSessionId === "init" ? <button disabled={loading} onClick={handlePayment} className="bg-secondary hover:bg-secondary/90 text-[15px] font-semibold py-3.5 px-7 rounded-md text-white">
+            <Loader2 className={`animate-spin ${loading ? 'block' : 'hidden'}`} />
+           Complete Order
+         </button>:  <button disabled={loading} onClick={() => handleOrderStatus(userSessionId)} className="bg-secondary hover:bg-secondary/90 text-[15px] font-semibold py-3.5 px-7 rounded-md text-white">
+              Retry Payment
+              <Loader2 className={`animate-spin ${loading ? 'block' : 'hidden'}`} />
             </button>
+         }
           </div>
           <div className="py-3 pb-10 border-t mt-14 border-bordercolor">
             <p className="text-xs text-gray-600 hover:text-lightbrown">

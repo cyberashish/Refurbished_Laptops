@@ -275,13 +275,52 @@ export const ProductContextProvider = ({children}:{children: React.ReactNode}) =
        handleDbStorage();
      },[session]);
 
-
-
      useEffect(() =>{
        if(persistCartItems){
         handleCoupons()
        }
      },[persistCartItems])
+
+    //  Handle cart-items change effect
+
+    const handleCartItemsEffect = () => {
+      let accumulatedDiscountedPrice = 0;
+      if(persistCartItems){
+        persistCartItems?.forEach((item:any) => {
+          accumulatedDiscountedPrice = accumulatedDiscountedPrice + (Number(item?.laptop.pricing?.discountedPrice?.replaceAll(",",""))*item.quantity);
+      });
+        const productPricesAfterTaxation = accumulatedDiscountedPrice;
+        console.log(productPricesAfterTaxation,"bahega",totalPrice,);
+        localStorage.setItem("totalPrice" , `${productPricesAfterTaxation}`);
+        localStorage.setItem("couponCode" , "ENTER COUPON");
+        setTotalPrice(productPricesAfterTaxation);
+        setActiveCouponCode("ENTER COUPON");
+        setUsedCoupons([]);
+      }
+    }
+
+    useEffect(() => {
+      handleCartItemsEffect();
+    },[persistCartItems])
+
+    //  let accumulatedDiscountedPrice = 0;
+    //  const [hasrrun , setHasrun] = useState(false);
+   
+    //  useEffect(() => {
+    //      if(hasrrun){
+    //        if(persistCartItems){
+    //           persistCartItems?.forEach((item:any) => {
+    //             accumulatedDiscountedPrice = accumulatedDiscountedPrice + (Number(item?.laptop.pricing?.discountedPrice?.replaceAll(",",""))*item.quantity);
+    //         });
+    //           const productPricesAfterTaxation = accumulatedDiscountedPrice;
+    //           console.log(productPricesAfterTaxation,"bahega",totalPrice,"jai shree ram",hasrrun)
+    //           setTotalPrice(productPricesAfterTaxation);
+    //         }
+    //      }else{
+    //        console.log("jai shree krishna",hasrrun)
+    //      };
+    //      setHasrun(true)
+    //  },[hasrrun]);
 
     return (
         <>

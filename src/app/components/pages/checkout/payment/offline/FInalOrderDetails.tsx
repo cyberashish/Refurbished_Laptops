@@ -13,11 +13,11 @@ const FinalOrderDetails = () => {
 
   
   useEffect(() => {
-      if(totalPrice === 0 || activeCouponCode === "ENTER COUPON"){
         setTotalPrice(Number(localStorage.getItem('totalPrice')));
         setActiveCouponCode(localStorage.getItem("couponCode")!);
-      }
   },[totalPrice , activeCouponCode])
+
+
 
   
   return (

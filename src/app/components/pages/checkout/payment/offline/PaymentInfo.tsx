@@ -1,15 +1,15 @@
 "use client"
-
+ 
 import { ProductContext } from '@/app/context/products/ProductContext'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import Link from 'next/link'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import OrderPlacedDialog from '../../order/OrderPlacedDialog'
 
 const PaymentInfo = () => {
     const { setDeliveryCharge , setTotalPrice , totalPrice , deliveryCharge , setPaymentMethod} = useContext(ProductContext);
     const handleDeliveryCharges = (charge:number) => {
-        if(Number(localStorage.getItem("totalPrice")) !== totalPrice && charge === 0){
+        if( charge === 0){
             setTotalPrice(totalPrice - deliveryCharge);
             setDeliveryCharge(0)
         }else{
@@ -17,6 +17,19 @@ const PaymentInfo = () => {
           setDeliveryCharge(charge)
         }
     }
+
+  useEffect(() => {
+      localStorage.setItem("totalPrice" , `${totalPrice}`);
+  },[totalPrice]);
+
+  useEffect(() => {
+     if(!deliveryCharge){
+      setPaymentMethod("Online");
+     }else{
+      setPaymentMethod("COD");
+     }
+  },[deliveryCharge])
+
   return (
     <div className="pt-11">
     <h3 className="text-lg text-dark font-semibold mb-6">
@@ -34,9 +47,6 @@ const PaymentInfo = () => {
               value={0}
               onChange={(e) => {
                 handleDeliveryCharges(Number(e.target.value));
-                if(Number(e.target.value) === 0){
-                  setPaymentMethod("COD")
-                }
               }}
               className="border-gray-200 w-[18px] h-[18px] rounded-full disabled:opacity-50 focus:ring-lightbrown ring-lightbrown text-lightbrown checked:bg-lightbrown checked:border-lightbrown "
               checked={deliveryCharge == 0 ? true : false}
@@ -60,13 +70,10 @@ const PaymentInfo = () => {
               id="hs-list-group-item-radio-3"
               name="hs-list-group-item-radio"
               type="radio"
-              value={90}
+              value={60}
               checked={deliveryCharge !== 0 ? true : false}
               onChange={(e) => {
                 handleDeliveryCharges(Number(e.target.value));
-                if(Number(e.target.value) > 0){
-                  setPaymentMethod("Online")
-                }
               }}
               className="border-gray-200 w-[18px] h-[18px] rounded-full disabled:opacity-50 focus:ring-lightbrown ring-lightbrown text-lightbrown checked:bg-lightbrown checked:border-lightbrown"
             />
@@ -76,7 +83,7 @@ const PaymentInfo = () => {
             className="ms-3 gap-0 w-full flex flex-col text-sm text-gray-600 dark:text-neutral-500"
           >
             <span>Cash on Delivery</span>
-             <p className="text-xs text-gray-600 font-normal" >Save upto Rs.90 on Prepaid orders</p>
+             <p className="text-xs text-gray-600 font-normal" >Save upto Rs.60 on Prepaid orders</p>
           </label>
         </div>
         <span className="text-sm font-semibold text-dark" >₹60.00</span>
@@ -92,8 +99,8 @@ const PaymentInfo = () => {
               <p className="text-lightbrown group-hover:text-secondary">Return to cart</p>
             </Link>
             {
-              deliveryCharge === 0 ? <Link href="/checkout/payment/online" >
-              <button  className="bg-secondary h-fit hover:bg-secondary/90 text-[15px] font-semibold py-3.5 px-7 flex items-center gap-1 rounded-md text-white">
+              deliveryCharge === 0 ? <Link href="/checkout/payment/online/init" >
+              <button  className="bg-secondary h-fit hover:bg-secondary/60 text-[15px] font-semibold py-3.5 px-7 flex items-center gap-1 rounded-md text-white">
                 Complete Purchase
               </button></Link> :  <OrderPlacedDialog/>
             }

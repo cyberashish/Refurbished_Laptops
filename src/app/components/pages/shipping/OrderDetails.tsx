@@ -3,12 +3,12 @@
 import MiniOrderItem from "../../users/orders/MiniOrderItem"; 
 import { useContext, useEffect, useState } from "react";
 import { ProductContext } from "@/app/context/products/ProductContext";
-import { ProductSkeleton } from "../product-detail/skeleton/ProductSkeleton";
+import { ProductSkeleton } from "../product-detail/skeleton/ProductSkeleton"; 
 import { formatNumber } from "@/app/utils";
 import { CouponInfo } from "./coupons/CouponInfo";
 
 const OrderDetails = () => {
-  const {persistCartItems,isCartItemsLoading,totalPrice,setTotalPrice } = useContext(ProductContext);
+  const {persistCartItems,isCartItemsLoading,totalPrice,setTotalPrice, setActiveCouponCode , activeCouponCode, setUsedCoupons} = useContext(ProductContext);
   let accumulatedDiscountedPrice = 0;
   const [hasrrun , setHasrun] = useState(false);
 
@@ -26,7 +26,18 @@ const OrderDetails = () => {
         console.log("jai shree krishna",hasrrun)
       };
       setHasrun(true)
-  },[hasrrun,persistCartItems])
+  },[hasrrun]);
+
+  // useEffect(() => {
+  //   setActiveCouponCode("ENTER COUPON");
+  //   setUsedCoupons([]);
+  // },[persistCartItems]);
+
+  // useEffect(() => {
+  //   console.log("readly")
+  //   localStorage.setItem("totalPrice" , `${totalPrice}`);
+  //   localStorage.setItem("couponCode" , `${activeCouponCode}`);
+  // },[activeCouponCode])
   
   return (
       <div className="lg:w-5/12 w-full border-s border-border lg:ps-[56px] ps-6 lg:px-0 px-6 pt-14 ">

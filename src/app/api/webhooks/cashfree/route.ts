@@ -1,22 +1,34 @@
-import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/app/lib/prisma";
+import { NextResponse } from "next/server";
 
-export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json(); // Parse incoming webhook data
-    console.log("Received Webhook Data:", body);
 
-    // 🔥 Process webhook event based on type
-    if (body.event === "payment.success") {
-      console.log("Payment Success:", body);
-      // ✅ Update your database, notify the user, etc.
-    } else if (body.event === "payment.failed") {
-      console.log("Payment Failed:", body);
-      // Handle failure case
+export async function POST(req: Request) {
+    try {
+        const body = await req.json();
+        console.log("Webhook received:", body); 
+
+        // Verify the event type
+        if (body.type !== "PAYMENT_SUCCESS_WEBHOOK") {
+            return NextResponse.json({ error: "Invalid event type" }, { status: 400 });
+        }
+
+        const { order, payment } = body.data;
+        const { order_id } = order;
+        const { payment_status} = payment;
+
+        // ✅ Update the order status in the database
+        const updatedOrder = await prisma.order.update({
+            where: { orderId: order_id },
+            data: {
+                paymentStatus: payment_status === "SUCCESS" ? "PAID" : "FAILED",
+            },
+        });
+
+        console.log("Order updated successfully:", updatedOrder);
+        return NextResponse.json({ success: true, message: "Order updated" });
+
+    } catch (error) {
+        console.error("Webhook error:", error);
+        return NextResponse.json({ error: "Failed to process webhook" }, { status: 500 });
     }
-
-    return NextResponse.json({ status: "success" }, { status: 200 });
-  } catch (error) {
-    console.error("Webhook Error:", error);
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
-  }
 }

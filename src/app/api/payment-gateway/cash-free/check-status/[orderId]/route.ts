@@ -19,7 +19,7 @@ export async function GET(req:Request,{params}:{params:Promise<{orderId:string}>
         if(orderResult.order_status === "PAID"){
             return NextResponse.redirect(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/payment/success`);
         }else if(orderResult.order_status === "ACTIVE"){
-            return NextResponse.redirect(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/${orderResult.payment_session_id}`)
+            return NextResponse.redirect(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/checkout/payment/online/${orderResult.payment_session_id}`)
         }else{
             return NextResponse.redirect(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/payment/failure`);
         }
