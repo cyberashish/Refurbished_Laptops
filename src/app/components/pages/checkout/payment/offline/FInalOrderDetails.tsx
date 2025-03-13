@@ -13,11 +13,11 @@ const FinalOrderDetails = () => {
 
   
   useEffect(() => {
-      if(totalPrice === 0 || activeCouponCode==="ENTER COUPON"){
+      if(totalPrice === 0 || activeCouponCode === "ENTER COUPON"){
         setTotalPrice(Number(localStorage.getItem('totalPrice')));
-        setActiveCouponCode(localStorage.getItem('couponCode')!)
+        setActiveCouponCode(localStorage.getItem("couponCode")!);
       }
-  },[totalPrice,activeCouponCode])
+  },[totalPrice , activeCouponCode])
 
   
   return (
@@ -61,7 +61,7 @@ const FinalOrderDetails = () => {
                 Applied Coupon
               </span>
               <span className="text-xs bg-primary/10 text-primary rounded-md py-1 px-3 font-semibold">
-                {`${activeCouponCode === "Enter Coupon" ? "No coupon Applied" : activeCouponCode}`}
+                {`${activeCouponCode === "ENTER COUPON" ? "No coupon Applied" : activeCouponCode}`}
               </span> 
             </div>
             )}

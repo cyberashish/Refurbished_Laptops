@@ -83,7 +83,7 @@ export const ProductContextProvider = ({children}:{children: React.ReactNode}) =
     const [allProducts , setAllProducts] = useState<Product[]>([]);
     const [totalPrice , setTotalPrice] = useState(0);
     const [allCoupons , setAllCoupons] = useState<CouponType[]>([]);
-    const [activeCouponCode , setActiveCouponCode] = useState("Enter Coupon");
+    const [activeCouponCode , setActiveCouponCode] = useState("ENTER COUPON");
     const [usedCoupons , setUsedCoupons] = useState<UsedCoupon[]>([]);
     const [allWishListItems , setWishListItems] = useState<any[]>([]);
     const [deliveryCharge , setDeliveryCharge] = useState(0);

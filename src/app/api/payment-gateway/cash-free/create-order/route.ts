@@ -24,7 +24,7 @@ export async function POST(req: Request) {
         customer_phone: "9989789867",
       },
       order_meta: {
-        notify_url: "https://refurbished-laptops.vercel.appapi/webhooks/cashfree",
+        notify_url: "https://refurbished-laptops.vercel.app/api/webhooks/cashfree",
         return_url: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}`,
       },
       order_id: 'ORID665456' + Date.now(),

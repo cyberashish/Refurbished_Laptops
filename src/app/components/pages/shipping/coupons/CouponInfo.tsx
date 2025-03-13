@@ -26,7 +26,8 @@ export const CouponInfo = () => {
       }
     }
     handleTotalPrice();
-  },[totalPrice])
+    SaveCoupon();
+  },[totalPrice , activeCouponCode])
   
  
    const handleCoupon = (activeCouponCode:string) => {
@@ -63,7 +64,7 @@ export const CouponInfo = () => {
               position:"top-right"
             });
             setUsedCoupons(usedCoupons);
-            localStorage.setItem("couponCode" , `${activeCouponCode}`)
+            // localStorage.setItem("couponCode" , `${activeCouponCode}`)
           }else{
             toast.error("Not a valid coupon code" , {
               position:"top-right"
@@ -74,6 +75,10 @@ export const CouponInfo = () => {
 
    const handleTotalPrice = () => {
     localStorage.setItem("totalPrice" , `${totalPrice}`)
+   }
+
+   const SaveCoupon = () => {
+    localStorage.setItem("couponCode" , `${activeCouponCode}`)
    }
 
 
