@@ -12,28 +12,54 @@ import { UserContext } from "@/app/context/users/UserContext";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 
 const OrderPlacedDialog = () => {
 
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
-  const {totalPrice, paymentMethod , persistCartItems} = useContext(ProductContext)
+  const {totalPrice, paymentMethod , persistCartItems , setPersistCartItems , setTotalPrice , setUsedCoupons, setTaxes , setActiveCouponCode} = useContext(ProductContext)
   const {userId, activeShippingAddress} = useContext(UserContext);
   const [isLoading , setIsLoading] = useState(false);
 
   const handleOrder = async () => {
        setIsLoading(true);
        try{
-         const orderResponse = await fetch("/api/users/order",{
-            method:"POST",
+        //  const orderResponse = await fetch("/api/users/order",{
+        //     method:"POST",
+        //     headers:{'Content-Type':'application/json'},
+        //     body:JSON.stringify({userId,totalAmount:totalPrice,paymentMethod,shippingAddress:activeShippingAddress,items:persistCartItems})
+        //  });
+        //  const userOrder = await orderResponse.json();
+        //  console.log(userOrder);
+
+        // Clear all cart items
+         
+        try{
+          const deletedCartItemsResponse = await fetch("/api/users/cart/delete/all" , {
+            method:"DELETE",
             headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({userId,totalAmount:totalPrice,paymentMethod,shippingAddress:activeShippingAddress,items:persistCartItems})
-         });
-         const userOrder = await orderResponse.json();
-         console.log(userOrder);
+            body: JSON.stringify({userId})
+          });
+        const data =  await deletedCartItemsResponse.json();
+        console.log(data);
+        setPersistCartItems([]);
+        localStorage.setItem('totalPrice',"");
+        localStorage.setItem('couponCode',"");
+        setTotalPrice(0);
+        setTaxes(0);
+        }catch(error){
+          console.log("failed to clear all cart-items",error)
+        }
          setOpen(true);
          setIsLoading(false);
+         setActiveCouponCode("ENTER COUPON");
+         setUsedCoupons([])
+         setTimeout(() => {
+          router.push("/users/order")
+         }, 1000);
        }catch(error){
         console.log("failed to place order!" , error)
        }
@@ -45,6 +71,7 @@ const OrderPlacedDialog = () => {
               Complete Purchase
               <Loader2 className={`animate-spin ${isLoading ? 'block' : 'hidden'}`} />
       </button>
+      {/* Successfully placed order */}
 <AlertDialog open={open} onOpenChange={setOpen}>
   <AlertDialogContent className="p-0">
   <AlertDialogCancel onClick={() => setOpen(false)} className="text-lg h-8 w-8 bg-white shadow flex items-center justify-center !p-0 absolute end-5 top-2.5">
@@ -64,7 +91,7 @@ const OrderPlacedDialog = () => {
     </AlertDialogHeader>
   </AlertDialogContent>
 </AlertDialog>
-      
+
     </>
   )
 }

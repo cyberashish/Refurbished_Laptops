@@ -1,8 +1,10 @@
+"use client"
+
 import { ProductContext } from '@/app/context/products/ProductContext'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import Link from 'next/link'
 import React, { useContext } from 'react'
-import OrderPlacedDialog from './order/OrderPlacedDialog'
+import OrderPlacedDialog from '../../order/OrderPlacedDialog'
 
 const PaymentInfo = () => {
     const { setDeliveryCharge , setTotalPrice , totalPrice , deliveryCharge , setPaymentMethod} = useContext(ProductContext);
@@ -89,7 +91,13 @@ const PaymentInfo = () => {
               />
               <p className="text-lightbrown group-hover:text-secondary">Return to cart</p>
             </Link>
-            <OrderPlacedDialog/>
+            {
+              deliveryCharge === 0 ? <Link href="/checkout/payment/online" >
+              <button  className="bg-secondary h-fit hover:bg-secondary/90 text-[15px] font-semibold py-3.5 px-7 flex items-center gap-1 rounded-md text-white">
+                Complete Purchase
+              </button></Link> :  <OrderPlacedDialog/>
+            }
+           
           </div>
           <div className="py-3 pb-10 border-t mt-14 border-bordercolor">
             <p className="text-xs text-gray-600 hover:text-lightbrown">

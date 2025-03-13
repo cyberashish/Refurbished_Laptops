@@ -111,14 +111,18 @@ export const UserContextProvider = ({children}:{children: React.ReactNode}) => {
        try{
            userShippingAddress.forEach(async (item:any) => {
                if(item.id !== addressId){
-                const updatedResponse =  await fetch("/api/users/address/default" , {
-                  method:"PATCH",
-                  headers:{'Content-Type':'application/json'},
-                  body:JSON.stringify({addressId:item.id,isDefault:false})
-                 });
-                 const updatedAddress = await updatedResponse.json();
-                 console.log(updatedAddress,"mine");
-                  await getShippingAddresses(userId);
+                if(addressId){
+                  const updatedResponse =  await fetch("/api/users/address/default" , {
+                    method:"PATCH",
+                    headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({addressId:item.id,isDefault:false})
+                   });
+                   const updatedAddress = await updatedResponse.json();
+                   console.log(updatedAddress,"mine");
+                    await getShippingAddresses(userId);
+                }else{
+                  console.log("Not able to find address")
+                }
                }
            })
          
@@ -155,6 +159,7 @@ export const UserContextProvider = ({children}:{children: React.ReactNode}) => {
     useEffect(() =>{
       handleUserAction();
       if(trackIsDefaultAddress){
+        console.log(trackIsDefaultAddress,"main context se aaya hun bhai");
         handleDefaultUpdate(trackIsDefaultAddress)
       }
     },[session,userId,trackIsDefaultAddress]) 

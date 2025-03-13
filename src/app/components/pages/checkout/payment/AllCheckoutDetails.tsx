@@ -1,6 +1,7 @@
-import React from 'react'
-import PaymentMode from './PaymentMode'
-import FinalOrderDetails from './FInalOrderDetails'
+import FinalOrderDetails from "./offline/FInalOrderDetails"
+import PaymentMode from "./offline/PaymentMode"
+
+
 
 const AllCheckoutDetails = () => {
   return (

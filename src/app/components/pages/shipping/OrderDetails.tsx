@@ -1,6 +1,6 @@
 "use client"
 
-import MiniOrderItem from "../../users/orders/MiniOrderItem";
+import MiniOrderItem from "../../users/orders/MiniOrderItem"; 
 import { useContext, useEffect, useState } from "react";
 import { ProductContext } from "@/app/context/products/ProductContext";
 import { ProductSkeleton } from "../product-detail/skeleton/ProductSkeleton";
@@ -8,9 +8,8 @@ import { formatNumber } from "@/app/utils";
 import { CouponInfo } from "./coupons/CouponInfo";
 
 const OrderDetails = () => {
-  const {persistCartItems,isCartItemsLoading,totalPrice,setTotalPrice} = useContext(ProductContext);
+  const {persistCartItems,isCartItemsLoading,totalPrice,setTotalPrice } = useContext(ProductContext);
   let accumulatedDiscountedPrice = 0;
-  let taxvalue = 161.35;
   const [hasrrun , setHasrun] = useState(false);
 
   useEffect(() => {
@@ -19,7 +18,7 @@ const OrderDetails = () => {
            persistCartItems?.forEach((item:any) => {
              accumulatedDiscountedPrice = accumulatedDiscountedPrice + (Number(item?.laptop.pricing?.discountedPrice?.replaceAll(",",""))*item.quantity);
          });
-           const productPricesAfterTaxation = accumulatedDiscountedPrice +taxvalue;
+           const productPricesAfterTaxation = accumulatedDiscountedPrice;
            console.log(productPricesAfterTaxation,"bahega",totalPrice,"jai shree ram",hasrrun)
            setTotalPrice(productPricesAfterTaxation);
          }
@@ -55,7 +54,7 @@ const OrderDetails = () => {
               <span className="text-sm font-medium text-gray-600">
                 Subtotal
               </span>
-              <p className="text-sm text-dark font-semibold">{`₹${formatNumber(totalPrice - taxvalue)}`}</p>
+              <p className="text-sm text-dark font-semibold">{`₹${formatNumber(totalPrice)}`}</p>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-sm font-medium text-gray-600">
@@ -69,9 +68,9 @@ const OrderDetails = () => {
           <div className="flex justify-between items-center py-5 flex-wrap lg:gap-0 gap-3">
             <div className="flex flex-col gap-0">
               <span className="font-semibold text-gray-700 text-base">Total</span>
-              <p className="text-xs text-gray-600 font-normal">
-                {`Including ₹${taxvalue} in taxes`}
-              </p>
+              {/* <p className="text-xs text-gray-600 font-normal">
+                {`Including ₹${taxes} in taxes`}
+              </p> */}
             </div>
             <div className="flex items-center gap-2">
               <span className="text-xs text-gray-600 font-normal">INR</span>

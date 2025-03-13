@@ -42,7 +42,9 @@ interface productContextProps {
     deliveryCharge: number,
     setDeliveryCharge: (value:number) => void,
     paymentMethod: string,
-    setPaymentMethod: (value:string) => void
+    setPaymentMethod: (value:string) => void,
+    taxes: number,
+    setTaxes: (value:number) => void
 }
 
 const initialProductProp = {
@@ -67,7 +69,9 @@ const initialProductProp = {
     deliveryCharge: 0,
     setDeliveryCharge: () => {},
     paymentMethod:"COD",
-    setPaymentMethod: () => {}   
+    setPaymentMethod: () => {},
+    taxes: 0,
+    setTaxes: () => {}  
 }
 
 export const ProductContext = createContext<productContextProps>(initialProductProp);
@@ -84,6 +88,7 @@ export const ProductContextProvider = ({children}:{children: React.ReactNode}) =
     const [allWishListItems , setWishListItems] = useState<any[]>([]);
     const [deliveryCharge , setDeliveryCharge] = useState(0);
     const [paymentMethod , setPaymentMethod] = useState("COD");
+    const [taxes , setTaxes] = useState(0);
 
     const {data:session} = useSession();
 
@@ -303,7 +308,9 @@ export const ProductContextProvider = ({children}:{children: React.ReactNode}) =
                 deliveryCharge,
                 setDeliveryCharge,
                 paymentMethod,
-                setPaymentMethod
+                setPaymentMethod,
+                taxes,
+                setTaxes
             }
          } >
             {children}

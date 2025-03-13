@@ -30,14 +30,14 @@ const OrderItem = ({order}:any) => {
          </div>
       </div>
         <div className="flex items-center lg:gap-4 gap-0 w-full lg:flex-nowrap flex-wrap px-4">
-        <div className="lg:w-2/12 w-full"  >
-        <Image src={order.items[0].laptop.image[0]} alt="product_image" width={100} height={100} style={{width:"100%" , height:"auto"}} unoptimized />
-        <div className="w-8 h-8 bg-secondary absolute top-2 start-5 text-hite flex items-center rounded-full text-white">9</div>
+        <div className="lg:w-2/12 w-full relative"  >
+        <Image src={order.items[order.items.length - 1].laptop.image[0]} alt="product_image" width={100} height={100} style={{width:"100%" , height:"auto"}} unoptimized />
+        <div className="w-6 h-6 text-xs font-medium bg-primary absolute bottom-7 end-1 text-white flex items-center justify-center rounded-full ">+{order.items.length}</div>
         </div>
           <div className="flex flex-col lg:w-10/12 w-full">
             <h3 className="text-lg font-semibold leading-none text-yellow-500">{order.status}</h3>
               <div className="my-1 mb-3">
-              <h3 className="text-sm font-medium text-dark">{`${order.items[0].laptop.title}`}</h3>
+              <h3 className="text-sm font-medium text-dark">{`${order.items[order.items.length - 1].laptop.title} and Others ....`}</h3>
               </div>
             <div className="flex items-center gap-2.5">
                 <Link href={`/users/order/detail?order=${order.id}`} >

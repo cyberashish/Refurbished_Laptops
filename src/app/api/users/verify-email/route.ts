@@ -8,26 +8,29 @@ export async function POST(req:Request){
       const user = await prisma.user.findFirst({
         where:{verificationToken:verificationToken}
       });
-
-
-      if(user?.verificationTokenExpiry){
-       const expiryDate = new Date(user.verificationTokenExpiry);
-       const now = new Date();
-       
-       if(expiryDate < now){
-        await prisma.user.update({
-          where : {id : user.id},
-          data : {
-            isVerified: true,
-            verificationToken: ''
+      
+      if(user){
+        if(user?.verificationTokenExpiry){
+          const expiryDate = new Date(user.verificationTokenExpiry);
+          const now = new Date();
+          
+          if(expiryDate < now){
+           await prisma.user.update({
+             where : {id : user.id},
+             data : {
+               isVerified: true,
+               verificationToken: ''
+             }
+           });
+           return NextResponse.json({msg:"Email verified successfully" , success:true});
           }
-        });
-        return NextResponse.json({msg:"Email verified successfully" , success:true});
-       }
-       else{
-        return NextResponse.json({ msg: "Your email verification link has been expired" , success:false})
-       }
-       
+          else{
+           return NextResponse.json({ msg: "Your email verification link has been expired" , success:false})
+          }
+          
+         }
+      }else{
+        return NextResponse.json({msg:"Email verification is failed" , status:400 , success:false})
       }
 
     }catch(error){

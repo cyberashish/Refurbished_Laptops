@@ -1,22 +1,23 @@
 "use client"
 
-import MiniOrderItem from "../../users/orders/MiniOrderItem";
+import MiniOrderItem from "../../../../users/orders/MiniOrderItem";
 import { useContext, useEffect } from "react";
 import { ProductContext } from "@/app/context/products/ProductContext";
-import { ProductSkeleton } from "../product-detail/skeleton/ProductSkeleton";
+import { ProductSkeleton } from "../../../product-detail/skeleton/ProductSkeleton";
 import { formatNumber } from "@/app/utils";
 
 
 const FinalOrderDetails = () => {
-  const {persistCartItems,isCartItemsLoading,totalPrice, setTotalPrice,deliveryCharge,activeCouponCode} = useContext(ProductContext);
-  const taxvalue = 161.35;
+  const {persistCartItems,isCartItemsLoading,totalPrice, setTotalPrice,deliveryCharge,activeCouponCode,setActiveCouponCode} = useContext(ProductContext);
+
 
   
   useEffect(() => {
-      if(totalPrice === 0){
+      if(totalPrice === 0 || activeCouponCode==="ENTER COUPON"){
         setTotalPrice(Number(localStorage.getItem('totalPrice')));
+        setActiveCouponCode(localStorage.getItem('couponCode')!)
       }
-  },[totalPrice])
+  },[totalPrice,activeCouponCode])
 
   
   return (
@@ -44,7 +45,7 @@ const FinalOrderDetails = () => {
               <span className="text-sm font-medium text-gray-600">
                 Subtotal
               </span>
-              <p className="text-sm text-dark font-semibold">{`₹${formatNumber(totalPrice - taxvalue)}`}</p>
+              <p className="text-sm text-dark font-semibold">{`₹${formatNumber(totalPrice)}`}</p>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-sm font-medium text-gray-600">
@@ -60,7 +61,7 @@ const FinalOrderDetails = () => {
                 Applied Coupon
               </span>
               <span className="text-xs bg-primary/10 text-primary rounded-md py-1 px-3 font-semibold">
-                {`${activeCouponCode}`}
+                {`${activeCouponCode === "Enter Coupon" ? "No coupon Applied" : activeCouponCode}`}
               </span> 
             </div>
             )}
@@ -68,9 +69,9 @@ const FinalOrderDetails = () => {
           <div className="flex justify-between items-center py-5 flex-wrap">
             <div className="flex flex-col gap-0">
               <span className="font-semibold text-gray-700 text-base">Total</span>
-              <p className="text-xs text-gray-600 font-normal">
-                {`Including ₹${taxvalue} in taxes`}
-              </p>
+              {/* <p className="text-xs text-gray-600 font-normal">
+                {`Including ₹${taxes} in taxes`}
+              </p> */}
             </div>
             <div className="flex items-center gap-2">
               <span className="text-xs text-gray-600 font-normal">INR</span>

@@ -2,12 +2,11 @@ import VerifyEmailComplete from '@/app/components/users/verify-email/VerifyEmail
 import { Suspense } from 'react'
 
 
-const Page = () => {
+const Page = async ({params}:{params:Promise<{token:string}>}) => {
+  const token = (await params).token;
   return (
     <div>
-      <Suspense fallback={<div>Loading...</div>}>
-      <VerifyEmailComplete/>
-      </Suspense>
+      <VerifyEmailComplete token={token}/>
     </div>
   )
 }

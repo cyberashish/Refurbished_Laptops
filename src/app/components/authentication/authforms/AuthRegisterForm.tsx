@@ -40,15 +40,18 @@ const AuthRegisterForm = () => {
     const user = await response.json();
 
     if(user.success){
-       const emailResponse = await fetch("/api/send" , {
-        method: "POST",
-        headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({verificationToken:`${user.verificationToken}`,email:`${user.email}`,fullname:`${user.fullname}`,})
-      });
-
-        if(emailResponse){
-        setIsEmailSent(true);
-        setTimeout(() => {setIsEmailSent(false)},4000)
+      try{ 
+         const emailResponse = await fetch("/api/send/email" , {
+          method:"POST",
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({userEmail:formInfo.email , firstName:user.fullname , verificationToken:user.verificationToken})
+         });
+         const result = await emailResponse.json();
+         console.log(result);
+         setIsEmailSent(true);
+         setTimeout(() => {setIsEmailSent(false)},4000)
+      }catch(error){
+        console.log('Failed to deliver email')
       }
       
     }else{
@@ -58,6 +61,20 @@ const AuthRegisterForm = () => {
     }
     setLoading(false);
   }
+
+  // const handleTestEmail = async () => {
+  //    try{
+  //       const emailResponse = await fetch("/api/send/email" , {
+  //         method: 'POST',
+  //         headers: {'Content-Type':'application/json'},
+  //         body: JSON.stringify({userEmail:formInfo.email,firstName,verificationToken})
+  //       });
+  //       const result = await emailResponse.json();
+  //       console.log(result);
+  //    }catch(error){
+  //     console.log("Error while delivering the email")
+  //    }
+  // }
 
 
   const signInHandler = () => {
@@ -91,6 +108,7 @@ const AuthRegisterForm = () => {
           <form onSubmit={(e) => {
             e.preventDefault();
             handleSubmit();
+            // handleTestEmail();
           }}>
           <div className="max-w-full mb-4">
             <label

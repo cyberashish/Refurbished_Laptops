@@ -63,6 +63,7 @@ export const CouponInfo = () => {
               position:"top-right"
             });
             setUsedCoupons(usedCoupons);
+            localStorage.setItem("couponCode" , `${activeCouponCode}`)
           }else{
             toast.error("Not a valid coupon code" , {
               position:"top-right"
