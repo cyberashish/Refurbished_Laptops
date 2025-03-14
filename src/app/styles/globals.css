@@ -97,7 +97,7 @@ body {
 
 .product-slider .slick-slider .slick-prev {
   left: -30px;
-  z-index: 50;
+  z-index: 9;
   background-color: white;
 }
 
@@ -107,7 +107,7 @@ body {
 
 .product-slider .slick-slider .slick-next {
   right: -30px;
-  z-index: 50;
+  z-index: 9;
   background-color: white;
 }
 /* Swiper slide */

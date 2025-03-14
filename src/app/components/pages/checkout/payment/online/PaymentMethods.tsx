@@ -31,7 +31,7 @@ const PaymentMethods = () => {
   
   
     const handlePayment = async () => {
-      console.log(process.env.NEXT_PUBLIC_NEXTAUTH_URL);
+        setLoading(true);
         try{
           if(customerName && customerEmail){
             const paymentResponse = await fetch("/api/payment-gateway/cash-free/create-order",{
@@ -53,6 +53,7 @@ const PaymentMethods = () => {
     }
   
     const handleOrderStatus = (sessionId:string)=>{
+      setLoading(true);
       let checkoutOptions = {
           paymentSessionId: sessionId,
           returnUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/payment-gateway/cash-free/check-status/${orderId ? orderId : localStorage.getItem("orderId")}`,
@@ -200,10 +201,10 @@ const PaymentMethods = () => {
               <Link href="/products/cart" className="hover:text-secondary">Return to cart</Link>
             </div>
          {
-           userSessionId === "init" ? <button disabled={loading} onClick={handlePayment} className="bg-secondary hover:bg-secondary/90 text-[15px] font-semibold py-3.5 px-7 rounded-md text-white">
+           userSessionId === "init" ? <button disabled={loading} onClick={handlePayment} className=" flex items-center gap-1.5 bg-secondary hover:bg-secondary/90 text-[15px] font-semibold py-3.5 px-7 rounded-md text-white">
             <Loader2 className={`animate-spin ${loading ? 'block' : 'hidden'}`} />
            Complete Order
-         </button>:  <button disabled={loading} onClick={() => handleOrderStatus(userSessionId)} className="bg-secondary hover:bg-secondary/90 text-[15px] font-semibold py-3.5 px-7 rounded-md text-white">
+         </button>:  <button disabled={loading} onClick={() => handleOrderStatus(userSessionId)} className=" flex items-center bg-secondary hover:bg-secondary/90 text-[15px] font-semibold py-3.5 px-7 rounded-md text-white">
               Retry Payment
               <Loader2 className={`animate-spin ${loading ? 'block' : 'hidden'}`} />
             </button>

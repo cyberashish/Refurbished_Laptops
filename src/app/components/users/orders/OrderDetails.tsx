@@ -78,7 +78,7 @@ const OrderDetails = () => {
                 Payment Methods
               </h3>
               <div className="flex flex-col gap-0.5">
-                <p className="text-sm font-medium">Pay on delivery</p>
+                <p className="text-sm font-medium">{currentOrder?.paymentMethod}</p>
               </div>
             </div>
             <div className="lg:col-span-4 col-span-12">

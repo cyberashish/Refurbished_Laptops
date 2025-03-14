@@ -11,6 +11,10 @@ const formatNumber = (num:number) => {
   
     return `${day} ${month} ${year}`;
   }
+
+  function toSentenceCase(str:string) {
+    return str.replace(/(^\s*\w|[.!?]\s*\w)/g, match => match.toUpperCase()).toLowerCase();
+}
   
 
-export {formatNumber,formatTimestampToDate}
+export {formatNumber,formatTimestampToDate,toSentenceCase}

@@ -1,5 +1,6 @@
 import { Button } from "@/app/components/ui/button"
 import NewProductSlider from "../../home/refurbished-laptops/NewProductSlider"
+import Link from "next/link"
 
 
 
@@ -17,7 +18,9 @@ const Wishlist = () => {
          <h3 className="text-[28px] font-semibold text-dark text-center">Liked Laptops</h3>
         </div>
            <NewProductSlider/>
-           <Button variant="primary" className="fit-content mx-auto font-semibold px-6" >View All</Button>
+           <Link href="/products/all" className="w-fit block mx-auto" >
+           <Button variant="primary" className=" font-semibold px-6" >View All</Button>
+           </Link>
       </div>
     </div>
   )

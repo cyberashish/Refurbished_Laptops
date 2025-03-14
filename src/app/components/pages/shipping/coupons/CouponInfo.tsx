@@ -39,7 +39,7 @@ export const CouponInfo = () => {
             console.log("upar wala");
          }else{     
           let usedCoupon = {activeCoupon:activeCouponCode,usedCount:1,discount:isValidCouponCode.discount};
-          let discountedAmount = (usedCoupon.discount/100)*initialTotalPrice;
+          let discountedAmount = Math.round((usedCoupon.discount/100)*initialTotalPrice);
           console.log(initialTotalPrice,"dekha");
           setTotalPrice((initialTotalPrice) - discountedAmount);
            setUsedCoupons([usedCoupon]);
@@ -59,7 +59,7 @@ export const CouponInfo = () => {
           if(isValidCouponCode){
             let usedCoupon = {activeCoupon:activeCouponCode,usedCount:1,discount:isValidCouponCode.discount};
             usedCoupons.push(usedCoupon);
-            let discountedAmount = (usedCoupon.discount/100)*totalPrice;
+            let discountedAmount = Math.round((usedCoupon.discount/100)*totalPrice);
             setTotalPrice(totalPrice - discountedAmount);
             toast.success(`Coupon code applied successfully`,{
               position:"top-right"

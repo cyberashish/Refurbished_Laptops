@@ -1,5 +1,7 @@
 import { Button } from "@/app/components/ui/button"
 import NewProductSlider from "./NewProductSlider"
+import Link from "next/link"
+
 
 
 const DailyRefurbishedLaptops = () => {
@@ -12,11 +14,13 @@ const DailyRefurbishedLaptops = () => {
           Refurbished
           </span>
         </div>
-        <h3 className="text-[28px] font-semibold text-dark text-center">Daily Usage Refurbished Laptops</h3>
+        <h3 className="text-[28px] font-semibold text-dark text-center">Refurbished Laptops</h3>
            </div>
            <NewProductSlider/>
            
-           <Button variant="primary" className="fit-content mx-auto font-semibold px-6" >View All</Button>
+           <Link href="/products/all" className="w-fit block mx-auto" >
+           <Button variant="primary" className=" font-semibold px-6" >View All</Button>
+           </Link>
       </div>
     </div>
   )

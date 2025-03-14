@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import {v4 as uuidv4} from "uuid";
 
 
@@ -8,21 +9,21 @@ const ShopByUsage = () => {
        id: uuidv4(),
        type: "BASIC",
        feature: "4 GB Ram, 500 GB HDD & more",
-       price: "20,000",
-       img: "https://www.gorefurbo.com/cdn/shop/products/HP1030G3X360.jpg"
+       price: "18,000",
+       img: "https://www.gorefurbo.com/cdn/shop/products/HP1030G3X360.jpg",
     },
     {
        id: uuidv4(),
        type: "GAMING",
        feature: "Core i7, Graphic Card , 240 GB",
-       price: "30,500",
+       price: "1,09,000",
        img: "https://www.gorefurbo.com/cdn/shop/products/HPPavilionGaming3500U.png?v=1673616111&width=360"
     },
     {
        id: uuidv4(),
        type: "BUSINESS",
        feature: "Core i5, 8 GB Ram & More",
-       price: "30,500",
+       price: "50,500",
        img: "https://www.gorefurbo.com/cdn/shop/files/hp-pavilion-x360-laptop-_myshop-pk-3.jpg?v=1691759163&width=360"
     },
   ]
@@ -41,7 +42,8 @@ const ShopByUsage = () => {
             {
               usageTypes.map((item) => {
                 return (
-                  <div className="p-2 lg:w-3/12 w-full" key={item.id}>
+                  <Link key={item.id} href={`/products/usage/${item.type.toLocaleLowerCase()}`} className="p-2 block lg:w-3/12 w-full" >
+                  <div>
                   <div className="py-8 px-8 shadow bg-white rounded-md hover:-translate-y-1 transition-all cursor-pointer duration-300 ease-in-out hover:shadow-md">
                   <Image src={item.img} alt="laptop" unoptimized width={100} height={100} style={{ width: "100%", height: "auto" }} className="rounded-md" />
                    <h3 className="text-xl font-semibold text-center pt-3 text-primary">{item.type}</h3>
@@ -49,7 +51,8 @@ const ShopByUsage = () => {
                     <p className="text-sm font-semibold text-center">{item.feature}</p>
                     <h3 className="text-lg font-semibold text-dark my-1 text-center">{`Starting from ₹${item.price}`}</h3>
                   </div>
-               </div>
+                 </div>
+                 </Link>
                 )
               })
             }

@@ -28,6 +28,10 @@ const OrderDetails = () => {
       setHasrun(true)
   },[hasrrun]);
 
+  useEffect(() => {
+   setUsedCoupons([]);
+  },[])
+
   // useEffect(() => {
   //   setActiveCouponCode("ENTER COUPON");
   //   setUsedCoupons([]);

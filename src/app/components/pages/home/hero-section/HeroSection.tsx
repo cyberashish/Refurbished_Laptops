@@ -16,7 +16,7 @@ import 'swiper/css/pagination';
 const SliderImages = [
     {
       key:"slider1",
-      img: "https://newjaisa.com/cdn/shop/files/indians_most_trusted_banner-01_3.jpg?v=1739617730&width=3840",
+      img: "https://i.ibb.co/s4xkVWK/test-book.jpg",
     },
     {
       key:"slider2",
