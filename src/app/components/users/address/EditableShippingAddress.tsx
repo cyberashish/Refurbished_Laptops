@@ -132,10 +132,8 @@ const EditableShippingAddress = ({handleOpen,addressInfo}:any) => {
                   <div className="col-span-12">
                     <select name="country" value={values.country}  onChange={handleChange}  onBlur={handleBlur} className={`py-3 px-4 block w-full rounded-lg border text-dark  text-sm ${errors.country && touched.country ? 'border-red-500 focus:border-red-500' : 'border-border focus:border-primary'} focus:outline-0 focus:ring-primary placeholder:text-gray-600`}>
                       <option  >Country/region</option>
-                      <option value="Bharat" >Bharat</option>
+                      <option value="India" >India</option>
                       <option value="USA" >USA</option>
-                      <option value="Russia" >Russia</option>
-                      <option value="China" >China</option>
                     </select>
                     {errors.country && touched.country ? <p className='text-sm font-normal text-red-500' >{errors.country}</p>:null}
                   </div>

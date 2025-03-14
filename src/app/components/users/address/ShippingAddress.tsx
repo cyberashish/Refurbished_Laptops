@@ -11,7 +11,7 @@ import { Button } from "../../ui/button";
 const ShippingAddress = ({ handleOpen }: any) => {
   const initialValues = useMemo(
     () => ({
-      country: "Bharat",
+      country: "India",
       firstName: "",
       lastName: "",
       street: "",
@@ -219,10 +219,8 @@ const ShippingAddress = ({ handleOpen }: any) => {
               } focus:outline-0 focus:ring-primary placeholder:text-gray-600`}
             >
               <option>Country/region</option>
-              <option value="Bharat">Bharat</option>
-              <option value="USA">USA</option>
-              <option value="Russia">Russia</option>
-              <option value="China">China</option>
+              <option value="India" >India</option>
+              <option value="USA" >USA</option>
             </select>
             {errors.country &&
             activeField.some((item) => item === "country") ? (

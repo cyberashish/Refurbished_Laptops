@@ -16,7 +16,7 @@ import 'swiper/css/pagination';
 const SliderImages = [
     {
       key:"slider1",
-      img: "https://i.ibb.co/s4xkVWK/test-book.jpg",
+      img: "https://newjaisa.com/cdn/shop/files/indians_most_trusted_banner-01_3.jpg?v=1739617730&width=3840",
     },
     {
       key:"slider2",
@@ -32,7 +32,7 @@ const SliderImages = [
     },
     {
       key:"slider5",
-      img:"https://newjaisa.com/cdn/shop/files/1_929fbbbc-d45e-4363-b0be-bcedd30a5f95.jpg?v=1725969607&width=3840",
+      img:"https://i.ibb.co/s4xkVWK/test-book.jpg",
     },
     {
       key:"slider6",
