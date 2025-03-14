@@ -27,10 +27,12 @@ const OrderPlacedDialog = () => {
   const handleOrder = async () => {
        setIsLoading(true);
        try{
+         let orderId = 'CID89898' + Date.now();
+
          const orderResponse = await fetch("/api/users/order",{
             method:"POST",
             headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({userId,totalAmount:totalPrice,paymentMethod,shippingAddress:activeShippingAddress,items:persistCartItems})
+            body:JSON.stringify({userId,totalAmount:totalPrice,paymentMethod,shippingAddress:activeShippingAddress,items:persistCartItems,orderId})
          });
          const userOrder = await orderResponse.json();
          console.log(userOrder);
