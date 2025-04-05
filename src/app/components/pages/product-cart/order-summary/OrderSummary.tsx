@@ -28,7 +28,7 @@ const OrderSummary = () => {
   }else{
     persistCartItems?.forEach((item:any) => {
          accumulatedOriginalPrice = (accumulatedOriginalPrice + (Number(item?.laptop?.pricing?.actualPrice?.replaceAll(",","")))*item.quantity);
-         console.log(accumulatedDiscountedPrice , item.laptop.pricing.discountedPrice)
+         console.log(accumulatedDiscountedPrice , item.laptop.pricing?.discountedPrice)
          accumulatedDiscountedPrice = accumulatedDiscountedPrice + (Number(item?.laptop?.pricing?.discountedPrice?.replaceAll(",","")))*item.quantity;
     });
   }

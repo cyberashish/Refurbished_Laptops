@@ -287,7 +287,7 @@ export const ProductContextProvider = ({children}:{children: React.ReactNode}) =
       let accumulatedDiscountedPrice = 0;
       if(persistCartItems){
         persistCartItems?.forEach((item:any) => {
-          accumulatedDiscountedPrice = accumulatedDiscountedPrice + (Number(item?.laptop.pricing?.discountedPrice?.replaceAll(",",""))*item.quantity);
+          accumulatedDiscountedPrice = accumulatedDiscountedPrice + (Number(item?.laptop?.pricing?.discountedPrice?.replaceAll(",",""))*item.quantity);
       });
         const productPricesAfterTaxation = accumulatedDiscountedPrice;
         console.log(productPricesAfterTaxation,"bahega",totalPrice,);
