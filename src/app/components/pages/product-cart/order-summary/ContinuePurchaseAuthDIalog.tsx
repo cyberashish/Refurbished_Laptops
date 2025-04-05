@@ -17,7 +17,7 @@ const ContinuePurchaseAuthDIalog = () => {
     <Dialog>
       <DialogTrigger asChild>
         <Button className='py-2.5 block font-medium text-sm text-center px-3 rounded-md bg-primary hover:bg-primary/80 text-white h-fit'>
-          Move to Wishlist
+          Continue Purchase
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-xl">
