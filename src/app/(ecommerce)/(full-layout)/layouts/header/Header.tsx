@@ -44,7 +44,7 @@ const Header = () => {
      <Input type="email" value={search} onChange={(e) => setSearch(e.target.value) } placeholder="What are you looking for" className="child lg:min-w-[560px] min-w-auto  px-12 rounded-full h-11 border-none focus-visible:ring-2 shadow-none placeholder:text-[13px]" />
      <Icon icon="solar:trash-bin-trash-linear" onClick={() => setSearch("")} className="text-xl absolute end-3.5 top-1/2 -translate-y-1/2 text-error hover:text-erroremphasis cursor-pointer" />
      </div>
-     <Icon icon="material-symbols:menu-rounded" className="text-2xl lg:hidden block  order-1"  />
+     {/* <Icon icon="material-symbols:menu-rounded" className="text-2xl lg:hidden block  order-1"  /> */}
      <div className="flex items-center gap-4  order-3">
      <CartDrawer/>
 

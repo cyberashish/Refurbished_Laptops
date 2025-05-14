@@ -13,8 +13,8 @@ export default function FilterCriteria({
 
   useEffect(() => {
     if (allProducts) {
-      if (filteredProducts.length === 0) {
-        const modifiedProducts = allProducts.sort(
+      if (filteredProducts?.length === 0) {
+        const modifiedProducts = allProducts?.sort(
           (laptopA: any, laptopB: any) => {
             const laptopAPrice = Number(
               laptopA.pricing.discountedPrice.split(",").join("")
@@ -73,14 +73,14 @@ export default function FilterCriteria({
         (item: any) => item.brand === brand
       );
       if(sortType === "HighToLow"){
-        const modifiedProducts = filteredData.sort((laptopA:any , laptopB:any) => {
+        const modifiedProducts = filteredData?.sort((laptopA:any , laptopB:any) => {
           const laptopAPrice = Number(laptopA.pricing.discountedPrice.split(",").join(""));
           const laptopBPrice = Number(laptopB.pricing.discountedPrice.split(",").join(""));
           return (laptopBPrice - laptopAPrice);
         });
         setFilterProducts([...modifiedProducts]);
       }else{
-        const modifiedProducts = filteredData.sort((laptopA:any , laptopB:any) => {
+        const modifiedProducts = filteredData?.sort((laptopA:any , laptopB:any) => {
           const laptopAPrice = Number(laptopA.pricing.discountedPrice.split(",").join(""));
           const laptopBPrice = Number(laptopB.pricing.discountedPrice.split(",").join(""));
           return (laptopAPrice - laptopBPrice);
@@ -93,16 +93,16 @@ export default function FilterCriteria({
   }
 
   useEffect(() => {
-      if(filteredProducts.length !== 0){
+      if(filteredProducts?.length !== 0){
         if(sortType === "HighToLow"){
-          const modifiedProducts = filteredProducts.sort((laptopA:any , laptopB:any) => {
+          const modifiedProducts = filteredProducts?.sort((laptopA:any , laptopB:any) => {
             const laptopAPrice = Number(laptopA.pricing.discountedPrice.split(",").join(""));
             const laptopBPrice = Number(laptopB.pricing.discountedPrice.split(",").join(""));
             return (laptopBPrice - laptopAPrice);
           });
           setFilterProducts([...modifiedProducts]);
         }else{
-          const modifiedProducts = filteredProducts.sort((laptopA:any , laptopB:any) => {
+          const modifiedProducts = filteredProducts?.sort((laptopA:any , laptopB:any) => {
             const laptopAPrice = Number(laptopA.pricing.discountedPrice.split(",").join(""));
             const laptopBPrice = Number(laptopB.pricing.discountedPrice.split(",").join(""));
             return (laptopAPrice - laptopBPrice);
@@ -116,7 +116,7 @@ export default function FilterCriteria({
 
   return (
     <>
-      <h3 className="text-base font-semibold text-dark">Filter by Brand</h3>
+      <h3 className="text-base font-semibold text-dark text-start">Filter by Brand</h3>
       <div className="flex flex-col gap-2 mt-4">
         {allBrands.map((item) => (
           <button
@@ -131,7 +131,7 @@ export default function FilterCriteria({
           </button>
         ))}
       </div>
-      <h3 className="text-base mt-6 font-semibold text-dark mb-3">Sort By</h3>
+      <h3 className="text-base mt-6 font-semibold text-dark mb-3 text-start">Sort By</h3>
       <button
         onClick={() => setSortType("HighToLow")}
         className={`py-2 px-4 rounded-md text-[15px] font-semibold hover:text-primary hover:bg-primary/20 text-dark flex items-center gap-2 ${
